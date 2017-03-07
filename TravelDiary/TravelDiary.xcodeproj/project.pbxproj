@@ -1,0 +1,825 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA00AD601E55F94600142876 /* TDDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00AD5F1E55F94600142876 /* TDDestination.swift */; };
+		AA00DDC51E62EDF4004BCDCB /* TDTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00DDC41E62EDF4004BCDCB /* TDTableHeaderView.swift */; };
+		AA00DDC71E62F1F2004BCDCB /* TDTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA00DDC61E62F1F2004BCDCB /* TDTableHeaderView.xib */; };
+		AA025F4D1E5AE24F003C1125 /* TDMapTableHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA025F4C1E5AE24F003C1125 /* TDMapTableHeaderViewCell.swift */; };
+		AA025F4F1E5AE743003C1125 /* TDMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA025F4E1E5AE743003C1125 /* TDMapTableViewCell.swift */; };
+		AA1713EE1E5C79CB00D178C7 /* TDSearchMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1713ED1E5C79CB00D178C7 /* TDSearchMapViewController.swift */; };
+		AA18498F1E602FD500F6E39E /* TDFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18498E1E602FD500F6E39E /* TDFilterViewController.swift */; };
+		AA1849931E60CDA100F6E39E /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = AA1849921E60CDA100F6E39E /* info.png */; };
+		AA1849971E60D3BC00F6E39E /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AA1849961E60D3BC00F6E39E /* Logo.png */; };
+		AA2B581D1E5F4F4500C9AD08 /* TDDestinationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2B581C1E5F4F4500C9AD08 /* TDDestinationCollectionViewCell.swift */; };
+		AA68F7391E646C9700DA7B30 /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68F7381E646C9700DA7B30 /* RealmController.swift */; };
+		AA84AA3E1E5ABBDF003EE9F5 /* TDDetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA84AA3D1E5ABBDF003EE9F5 /* TDDetailViewCell.swift */; };
+		AA88BD691E55990000C2A955 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD681E55990000C2A955 /* AppDelegate.swift */; };
+		AA88BD711E55990000C2A955 /* TravelDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD6F1E55990000C2A955 /* TravelDiary.xcdatamodeld */; };
+		AA88BD811E55990000C2A955 /* TravelDiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD801E55990000C2A955 /* TravelDiaryTests.swift */; };
+		AA88BD8C1E55990000C2A955 /* TravelDiaryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD8B1E55990000C2A955 /* TravelDiaryUITests.swift */; };
+		AA88BDBA1E5599D100C2A955 /* TDDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD9B1E5599D100C2A955 /* TDDetailViewController.swift */; };
+		AA88BDBB1E5599D100C2A955 /* TDEditDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD9C1E5599D100C2A955 /* TDEditDiaryViewController.swift */; };
+		AA88BDBC1E5599D100C2A955 /* TDImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD9D1E5599D100C2A955 /* TDImageViewController.swift */; };
+		AA88BDBD1E5599D100C2A955 /* TDMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BD9E1E5599D100C2A955 /* TDMapViewController.swift */; };
+		AA88BDBF1E5599D100C2A955 /* TDTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BDA01E5599D100C2A955 /* TDTableViewController.swift */; };
+		AA88BDC01E5599D100C2A955 /* ExtenstionForTD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BDA21E5599D100C2A955 /* ExtenstionForTD.swift */; };
+		AA88BDC11E5599D100C2A955 /* TDDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BDA41E5599D100C2A955 /* TDDiary.swift */; };
+		AA88BDC41E5599D100C2A955 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA88BDA91E5599D100C2A955 /* Assets.xcassets */; };
+		AA88BDC61E5599D100C2A955 /* noImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA88BDAB1E5599D100C2A955 /* noImage.jpg */; };
+		AA88BDC91E5599D100C2A955 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88BDAF1E5599D100C2A955 /* LaunchScreen.storyboard */; };
+		AA88BDCA1E5599D100C2A955 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA88BDB11E5599D100C2A955 /* Main.storyboard */; };
+		AA88BDCC1E5599D100C2A955 /* TDImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BDB41E5599D100C2A955 /* TDImageCollectionViewCell.swift */; };
+		AA88BDCD1E5599D100C2A955 /* TDImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA88BDB51E5599D100C2A955 /* TDImageCollectionViewCell.xib */; };
+		AA88BDCE1E5599D100C2A955 /* TDMapViewMarkerInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BDB61E5599D100C2A955 /* TDMapViewMarkerInfoWindow.swift */; };
+		AA88BDCF1E5599D100C2A955 /* TDMapViewMarkerInfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA88BDB71E5599D100C2A955 /* TDMapViewMarkerInfoWindow.xib */; };
+		AA88BDD01E5599D100C2A955 /* TDTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA88BDB81E5599D100C2A955 /* TDTableViewCell.swift */; };
+		AA88BDD21E559B4900C2A955 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA88BDD11E559B4900C2A955 /* CoreLocation.framework */; };
+		AA88BDD41E559B7800C2A955 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA88BDD31E559B7800C2A955 /* GooglePlaces.framework */; };
+		AA88BDD71E559BA300C2A955 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA88BDD51E559BA300C2A955 /* GoogleMaps.framework */; };
+		AA88BDD81E559BA300C2A955 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA88BDD61E559BA300C2A955 /* GoogleMapsCore.framework */; };
+		AADD7CBB1E58577400FEDC79 /* TDEditContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADD7CBA1E58577400FEDC79 /* TDEditContainerViewController.swift */; };
+		AAE58C4A1E571CCC0030FE40 /* TDEditDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE58C491E571CCC0030FE40 /* TDEditDestinationViewController.swift */; };
+		FD9708F290D4EE9D9A70879B /* Pods_TravelDiary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79E04C131F64382E4CDD4741 /* Pods_TravelDiary.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA88BD7D1E55990000C2A955 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA88BD5D1E55990000C2A955 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA88BD641E55990000C2A955;
+			remoteInfo = TravelDiary;
+		};
+		AA88BD881E55990000C2A955 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA88BD5D1E55990000C2A955 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA88BD641E55990000C2A955;
+			remoteInfo = TravelDiary;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2BAA4116E81D6BA9603E9F40 /* Pods-TravelDiary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelDiary.release.xcconfig"; path = "Pods/Target Support Files/Pods-TravelDiary/Pods-TravelDiary.release.xcconfig"; sourceTree = "<group>"; };
+		79E04C131F64382E4CDD4741 /* Pods_TravelDiary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelDiary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00AD5F1E55F94600142876 /* TDDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDDestination.swift; sourceTree = "<group>"; };
+		AA00DDC41E62EDF4004BCDCB /* TDTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDTableHeaderView.swift; sourceTree = "<group>"; };
+		AA00DDC61E62F1F2004BCDCB /* TDTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TDTableHeaderView.xib; sourceTree = "<group>"; };
+		AA025F4C1E5AE24F003C1125 /* TDMapTableHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDMapTableHeaderViewCell.swift; sourceTree = "<group>"; };
+		AA025F4E1E5AE743003C1125 /* TDMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDMapTableViewCell.swift; sourceTree = "<group>"; };
+		AA1713ED1E5C79CB00D178C7 /* TDSearchMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDSearchMapViewController.swift; sourceTree = "<group>"; };
+		AA18498E1E602FD500F6E39E /* TDFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDFilterViewController.swift; sourceTree = "<group>"; };
+		AA1849921E60CDA100F6E39E /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		AA1849961E60D3BC00F6E39E /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
+		AA2B581C1E5F4F4500C9AD08 /* TDDestinationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDDestinationCollectionViewCell.swift; sourceTree = "<group>"; };
+		AA68F7381E646C9700DA7B30 /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
+		AA84AA3D1E5ABBDF003EE9F5 /* TDDetailViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDDetailViewCell.swift; sourceTree = "<group>"; };
+		AA88BD651E55990000C2A955 /* TravelDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA88BD681E55990000C2A955 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AA88BD701E55990000C2A955 /* TravelDiary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TravelDiary.xcdatamodel; sourceTree = "<group>"; };
+		AA88BD7C1E55990000C2A955 /* TravelDiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TravelDiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA88BD801E55990000C2A955 /* TravelDiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDiaryTests.swift; sourceTree = "<group>"; };
+		AA88BD821E55990000C2A955 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA88BD871E55990000C2A955 /* TravelDiaryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TravelDiaryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA88BD8B1E55990000C2A955 /* TravelDiaryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDiaryUITests.swift; sourceTree = "<group>"; };
+		AA88BD8D1E55990000C2A955 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA88BD9B1E5599D100C2A955 /* TDDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDDetailViewController.swift; sourceTree = "<group>"; };
+		AA88BD9C1E5599D100C2A955 /* TDEditDiaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDEditDiaryViewController.swift; sourceTree = "<group>"; };
+		AA88BD9D1E5599D100C2A955 /* TDImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDImageViewController.swift; sourceTree = "<group>"; };
+		AA88BD9E1E5599D100C2A955 /* TDMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDMapViewController.swift; sourceTree = "<group>"; };
+		AA88BDA01E5599D100C2A955 /* TDTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDTableViewController.swift; sourceTree = "<group>"; };
+		AA88BDA21E5599D100C2A955 /* ExtenstionForTD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtenstionForTD.swift; sourceTree = "<group>"; };
+		AA88BDA41E5599D100C2A955 /* TDDiary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDDiary.swift; sourceTree = "<group>"; };
+		AA88BDA91E5599D100C2A955 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA88BDAB1E5599D100C2A955 /* noImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noImage.jpg; sourceTree = "<group>"; };
+		AA88BDB01E5599D100C2A955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AA88BDB21E5599D100C2A955 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AA88BDB41E5599D100C2A955 /* TDImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		AA88BDB51E5599D100C2A955 /* TDImageCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TDImageCollectionViewCell.xib; sourceTree = "<group>"; };
+		AA88BDB61E5599D100C2A955 /* TDMapViewMarkerInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDMapViewMarkerInfoWindow.swift; sourceTree = "<group>"; };
+		AA88BDB71E5599D100C2A955 /* TDMapViewMarkerInfoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TDMapViewMarkerInfoWindow.xib; sourceTree = "<group>"; };
+		AA88BDB81E5599D100C2A955 /* TDTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDTableViewCell.swift; sourceTree = "<group>"; };
+		AA88BDD11E559B4900C2A955 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA88BDD31E559B7800C2A955 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlaces.framework; path = Pods/GooglePlaces/Frameworks/GooglePlaces.framework; sourceTree = "<group>"; };
+		AA88BDD51E559BA300C2A955 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
+		AA88BDD61E559BA300C2A955 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMapsCore.framework; sourceTree = "<group>"; };
+		AAC380D11E56D2AF008C6106 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AADD7CBA1E58577400FEDC79 /* TDEditContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDEditContainerViewController.swift; sourceTree = "<group>"; };
+		AAE58C491E571CCC0030FE40 /* TDEditDestinationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDEditDestinationViewController.swift; sourceTree = "<group>"; };
+		D6BB83C62B4179BAB64B5BF7 /* Pods-TravelDiary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelDiary.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TravelDiary/Pods-TravelDiary.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA88BD621E55990000C2A955 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88BDD71E559BA300C2A955 /* GoogleMaps.framework in Frameworks */,
+				AA88BDD81E559BA300C2A955 /* GoogleMapsCore.framework in Frameworks */,
+				AA88BDD41E559B7800C2A955 /* GooglePlaces.framework in Frameworks */,
+				AA88BDD21E559B4900C2A955 /* CoreLocation.framework in Frameworks */,
+				FD9708F290D4EE9D9A70879B /* Pods_TravelDiary.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88BD791E55990000C2A955 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88BD841E55990000C2A955 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DF28A953DF66A661C59FCFE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D6BB83C62B4179BAB64B5BF7 /* Pods-TravelDiary.debug.xcconfig */,
+				2BAA4116E81D6BA9603E9F40 /* Pods-TravelDiary.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AA88BD5C1E55990000C2A955 = {
+			isa = PBXGroup;
+			children = (
+				AA88BD671E55990000C2A955 /* TravelDiary */,
+				AA88BD7F1E55990000C2A955 /* TravelDiaryTests */,
+				AA88BD8A1E55990000C2A955 /* TravelDiaryUITests */,
+				AA88BD661E55990000C2A955 /* Products */,
+				3DF28A953DF66A661C59FCFE /* Pods */,
+				B145D907C2051B9D750643E2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AA88BD661E55990000C2A955 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BD651E55990000C2A955 /* TravelDiary.app */,
+				AA88BD7C1E55990000C2A955 /* TravelDiaryTests.xctest */,
+				AA88BD871E55990000C2A955 /* TravelDiaryUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA88BD671E55990000C2A955 /* TravelDiary */ = {
+			isa = PBXGroup;
+			children = (
+				AAC380CE1E56D1F4008C6106 /* Supports */,
+				AA88BDA61E5599D100C2A955 /* Resources */,
+				AA88BDA11E5599D100C2A955 /* Extensions */,
+				AA88BDA31E5599D100C2A955 /* Models */,
+				AA88BDAE1E5599D100C2A955 /* Views */,
+				AA88BD991E5599D100C2A955 /* Controllers */,
+				AA88BD681E55990000C2A955 /* AppDelegate.swift */,
+				AA88BD6F1E55990000C2A955 /* TravelDiary.xcdatamodeld */,
+			);
+			path = TravelDiary;
+			sourceTree = "<group>";
+		};
+		AA88BD7F1E55990000C2A955 /* TravelDiaryTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BD801E55990000C2A955 /* TravelDiaryTests.swift */,
+				AA88BD821E55990000C2A955 /* Info.plist */,
+			);
+			path = TravelDiaryTests;
+			sourceTree = "<group>";
+		};
+		AA88BD8A1E55990000C2A955 /* TravelDiaryUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BD8B1E55990000C2A955 /* TravelDiaryUITests.swift */,
+				AA88BD8D1E55990000C2A955 /* Info.plist */,
+			);
+			path = TravelDiaryUITests;
+			sourceTree = "<group>";
+		};
+		AA88BD991E5599D100C2A955 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BDA01E5599D100C2A955 /* TDTableViewController.swift */,
+				AAE58C491E571CCC0030FE40 /* TDEditDestinationViewController.swift */,
+				AA88BD9C1E5599D100C2A955 /* TDEditDiaryViewController.swift */,
+				AADD7CBA1E58577400FEDC79 /* TDEditContainerViewController.swift */,
+				AA1713ED1E5C79CB00D178C7 /* TDSearchMapViewController.swift */,
+				AA88BD9B1E5599D100C2A955 /* TDDetailViewController.swift */,
+				AA88BD9D1E5599D100C2A955 /* TDImageViewController.swift */,
+				AA88BD9E1E5599D100C2A955 /* TDMapViewController.swift */,
+				AA18498E1E602FD500F6E39E /* TDFilterViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AA88BDA11E5599D100C2A955 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BDA21E5599D100C2A955 /* ExtenstionForTD.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AA88BDA31E5599D100C2A955 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA00AD5F1E55F94600142876 /* TDDestination.swift */,
+				AA88BDA41E5599D100C2A955 /* TDDiary.swift */,
+				AA68F7381E646C9700DA7B30 /* RealmController.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AA88BDA61E5599D100C2A955 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BDA81E5599D100C2A955 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AA88BDA81E5599D100C2A955 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				AA1849961E60D3BC00F6E39E /* Logo.png */,
+				AA88BDA91E5599D100C2A955 /* Assets.xcassets */,
+				AA1849921E60CDA100F6E39E /* info.png */,
+				AA88BDAB1E5599D100C2A955 /* noImage.jpg */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		AA88BDAE1E5599D100C2A955 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BDAF1E5599D100C2A955 /* LaunchScreen.storyboard */,
+				AA88BDB11E5599D100C2A955 /* Main.storyboard */,
+				AA00DDC41E62EDF4004BCDCB /* TDTableHeaderView.swift */,
+				AA00DDC61E62F1F2004BCDCB /* TDTableHeaderView.xib */,
+				AA88BDB81E5599D100C2A955 /* TDTableViewCell.swift */,
+				AA88BDB41E5599D100C2A955 /* TDImageCollectionViewCell.swift */,
+				AA88BDB51E5599D100C2A955 /* TDImageCollectionViewCell.xib */,
+				AA84AA3D1E5ABBDF003EE9F5 /* TDDetailViewCell.swift */,
+				AA88BDB61E5599D100C2A955 /* TDMapViewMarkerInfoWindow.swift */,
+				AA88BDB71E5599D100C2A955 /* TDMapViewMarkerInfoWindow.xib */,
+				AA025F4C1E5AE24F003C1125 /* TDMapTableHeaderViewCell.swift */,
+				AA025F4E1E5AE743003C1125 /* TDMapTableViewCell.swift */,
+				AA2B581C1E5F4F4500C9AD08 /* TDDestinationCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AAC380CE1E56D1F4008C6106 /* Supports */ = {
+			isa = PBXGroup;
+			children = (
+				AAC380D11E56D2AF008C6106 /* Info.plist */,
+			);
+			path = Supports;
+			sourceTree = "<group>";
+		};
+		B145D907C2051B9D750643E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA88BDD51E559BA300C2A955 /* GoogleMaps.framework */,
+				AA88BDD61E559BA300C2A955 /* GoogleMapsCore.framework */,
+				AA88BDD31E559B7800C2A955 /* GooglePlaces.framework */,
+				AA88BDD11E559B4900C2A955 /* CoreLocation.framework */,
+				79E04C131F64382E4CDD4741 /* Pods_TravelDiary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA88BD641E55990000C2A955 /* TravelDiary */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA88BD901E55990000C2A955 /* Build configuration list for PBXNativeTarget "TravelDiary" */;
+			buildPhases = (
+				37CC7D34E68C45A942C7D961 /* [CP] Check Pods Manifest.lock */,
+				AA88BD611E55990000C2A955 /* Sources */,
+				AA88BD621E55990000C2A955 /* Frameworks */,
+				AA88BD631E55990000C2A955 /* Resources */,
+				0894A05843841F1F3D37D680 /* [CP] Embed Pods Frameworks */,
+				CBFEBDB10FD73E15B61CC80E /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TravelDiary;
+			productName = TravelDiary;
+			productReference = AA88BD651E55990000C2A955 /* TravelDiary.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA88BD7B1E55990000C2A955 /* TravelDiaryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA88BD931E55990000C2A955 /* Build configuration list for PBXNativeTarget "TravelDiaryTests" */;
+			buildPhases = (
+				AA88BD781E55990000C2A955 /* Sources */,
+				AA88BD791E55990000C2A955 /* Frameworks */,
+				AA88BD7A1E55990000C2A955 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA88BD7E1E55990000C2A955 /* PBXTargetDependency */,
+			);
+			name = TravelDiaryTests;
+			productName = TravelDiaryTests;
+			productReference = AA88BD7C1E55990000C2A955 /* TravelDiaryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AA88BD861E55990000C2A955 /* TravelDiaryUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA88BD961E55990000C2A955 /* Build configuration list for PBXNativeTarget "TravelDiaryUITests" */;
+			buildPhases = (
+				AA88BD831E55990000C2A955 /* Sources */,
+				AA88BD841E55990000C2A955 /* Frameworks */,
+				AA88BD851E55990000C2A955 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA88BD891E55990000C2A955 /* PBXTargetDependency */,
+			);
+			name = TravelDiaryUITests;
+			productName = TravelDiaryUITests;
+			productReference = AA88BD871E55990000C2A955 /* TravelDiaryUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA88BD5D1E55990000C2A955 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				KnownAssetTags = (
+					New,
+				);
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Daeyun Ethan Kim";
+				TargetAttributes = {
+					AA88BD641E55990000C2A955 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 65YZS8FK2E;
+						ProvisioningStyle = Automatic;
+					};
+					AA88BD7B1E55990000C2A955 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 65YZS8FK2E;
+						ProvisioningStyle = Automatic;
+						TestTargetID = AA88BD641E55990000C2A955;
+					};
+					AA88BD861E55990000C2A955 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 65YZS8FK2E;
+						ProvisioningStyle = Automatic;
+						TestTargetID = AA88BD641E55990000C2A955;
+					};
+				};
+			};
+			buildConfigurationList = AA88BD601E55990000C2A955 /* Build configuration list for PBXProject "TravelDiary" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA88BD5C1E55990000C2A955;
+			productRefGroup = AA88BD661E55990000C2A955 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA88BD641E55990000C2A955 /* TravelDiary */,
+				AA88BD7B1E55990000C2A955 /* TravelDiaryTests */,
+				AA88BD861E55990000C2A955 /* TravelDiaryUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA88BD631E55990000C2A955 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88BDC41E5599D100C2A955 /* Assets.xcassets in Resources */,
+				AA88BDC61E5599D100C2A955 /* noImage.jpg in Resources */,
+				AA88BDCA1E5599D100C2A955 /* Main.storyboard in Resources */,
+				AA88BDC91E5599D100C2A955 /* LaunchScreen.storyboard in Resources */,
+				AA1849931E60CDA100F6E39E /* info.png in Resources */,
+				AA88BDCF1E5599D100C2A955 /* TDMapViewMarkerInfoWindow.xib in Resources */,
+				AA00DDC71E62F1F2004BCDCB /* TDTableHeaderView.xib in Resources */,
+				AA1849971E60D3BC00F6E39E /* Logo.png in Resources */,
+				AA88BDCD1E5599D100C2A955 /* TDImageCollectionViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88BD7A1E55990000C2A955 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88BD851E55990000C2A955 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0894A05843841F1F3D37D680 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TravelDiary/Pods-TravelDiary-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		37CC7D34E68C45A942C7D961 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CBFEBDB10FD73E15B61CC80E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TravelDiary/Pods-TravelDiary-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA88BD611E55990000C2A955 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88BDC01E5599D100C2A955 /* ExtenstionForTD.swift in Sources */,
+				AA00DDC51E62EDF4004BCDCB /* TDTableHeaderView.swift in Sources */,
+				AA025F4F1E5AE743003C1125 /* TDMapTableViewCell.swift in Sources */,
+				AA88BDD01E5599D100C2A955 /* TDTableViewCell.swift in Sources */,
+				AA00AD601E55F94600142876 /* TDDestination.swift in Sources */,
+				AAE58C4A1E571CCC0030FE40 /* TDEditDestinationViewController.swift in Sources */,
+				AA88BDBD1E5599D100C2A955 /* TDMapViewController.swift in Sources */,
+				AA88BDBC1E5599D100C2A955 /* TDImageViewController.swift in Sources */,
+				AA025F4D1E5AE24F003C1125 /* TDMapTableHeaderViewCell.swift in Sources */,
+				AA88BDCE1E5599D100C2A955 /* TDMapViewMarkerInfoWindow.swift in Sources */,
+				AA1713EE1E5C79CB00D178C7 /* TDSearchMapViewController.swift in Sources */,
+				AA88BDBA1E5599D100C2A955 /* TDDetailViewController.swift in Sources */,
+				AA88BDBB1E5599D100C2A955 /* TDEditDiaryViewController.swift in Sources */,
+				AA88BDC11E5599D100C2A955 /* TDDiary.swift in Sources */,
+				AA68F7391E646C9700DA7B30 /* RealmController.swift in Sources */,
+				AA84AA3E1E5ABBDF003EE9F5 /* TDDetailViewCell.swift in Sources */,
+				AADD7CBB1E58577400FEDC79 /* TDEditContainerViewController.swift in Sources */,
+				AA18498F1E602FD500F6E39E /* TDFilterViewController.swift in Sources */,
+				AA2B581D1E5F4F4500C9AD08 /* TDDestinationCollectionViewCell.swift in Sources */,
+				AA88BDBF1E5599D100C2A955 /* TDTableViewController.swift in Sources */,
+				AA88BDCC1E5599D100C2A955 /* TDImageCollectionViewCell.swift in Sources */,
+				AA88BD711E55990000C2A955 /* TravelDiary.xcdatamodeld in Sources */,
+				AA88BD691E55990000C2A955 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88BD781E55990000C2A955 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88BD811E55990000C2A955 /* TravelDiaryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA88BD831E55990000C2A955 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA88BD8C1E55990000C2A955 /* TravelDiaryUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA88BD7E1E55990000C2A955 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA88BD641E55990000C2A955 /* TravelDiary */;
+			targetProxy = AA88BD7D1E55990000C2A955 /* PBXContainerItemProxy */;
+		};
+		AA88BD891E55990000C2A955 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA88BD641E55990000C2A955 /* TravelDiary */;
+			targetProxy = AA88BD881E55990000C2A955 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AA88BDAF1E5599D100C2A955 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88BDB01E5599D100C2A955 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		AA88BDB11E5599D100C2A955 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA88BDB21E5599D100C2A955 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AA88BD8E1E55990000C2A955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA88BD8F1E55990000C2A955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA88BD911E55990000C2A955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6BB83C62B4179BAB64B5BF7 /* Pods-TravelDiary.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 65YZS8FK2E;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GooglePlaces/Frameworks",
+					"$(PROJECT_DIR)/Pods/GoogleMaps/Maps/Frameworks",
+				);
+				INFOPLIST_FILE = TravelDiary/Supports/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.KD.TravelDiary;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		AA88BD921E55990000C2A955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2BAA4116E81D6BA9603E9F40 /* Pods-TravelDiary.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 65YZS8FK2E;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/GooglePlaces/Frameworks",
+					"$(PROJECT_DIR)/Pods/GoogleMaps/Maps/Frameworks",
+				);
+				INFOPLIST_FILE = TravelDiary/Supports/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.KD.TravelDiary;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		AA88BD941E55990000C2A955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 65YZS8FK2E;
+				INFOPLIST_FILE = TravelDiaryTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.KD.TravelDiaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelDiary.app/TravelDiary";
+			};
+			name = Debug;
+		};
+		AA88BD951E55990000C2A955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 65YZS8FK2E;
+				INFOPLIST_FILE = TravelDiaryTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.KD.TravelDiaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelDiary.app/TravelDiary";
+			};
+			name = Release;
+		};
+		AA88BD971E55990000C2A955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 65YZS8FK2E;
+				INFOPLIST_FILE = TravelDiaryUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.KD.TravelDiaryUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = TravelDiary;
+			};
+			name = Debug;
+		};
+		AA88BD981E55990000C2A955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 65YZS8FK2E;
+				INFOPLIST_FILE = TravelDiaryUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.KD.TravelDiaryUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = TravelDiary;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA88BD601E55990000C2A955 /* Build configuration list for PBXProject "TravelDiary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88BD8E1E55990000C2A955 /* Debug */,
+				AA88BD8F1E55990000C2A955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA88BD901E55990000C2A955 /* Build configuration list for PBXNativeTarget "TravelDiary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88BD911E55990000C2A955 /* Debug */,
+				AA88BD921E55990000C2A955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA88BD931E55990000C2A955 /* Build configuration list for PBXNativeTarget "TravelDiaryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88BD941E55990000C2A955 /* Debug */,
+				AA88BD951E55990000C2A955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA88BD961E55990000C2A955 /* Build configuration list for PBXNativeTarget "TravelDiaryUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA88BD971E55990000C2A955 /* Debug */,
+				AA88BD981E55990000C2A955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AA88BD6F1E55990000C2A955 /* TravelDiary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AA88BD701E55990000C2A955 /* TravelDiary.xcdatamodel */,
+			);
+			currentVersion = AA88BD701E55990000C2A955 /* TravelDiary.xcdatamodel */;
+			path = TravelDiary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = AA88BD5D1E55990000C2A955 /* Project object */;
+}
