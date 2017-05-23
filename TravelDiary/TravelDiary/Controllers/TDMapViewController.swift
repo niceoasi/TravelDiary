@@ -24,7 +24,7 @@ class TDMapViewController: UIViewController {
     
     // MARK: - Properties
     let locationManager = CLLocationManager()
-    var currentLocation: CLLocation!
+    var currentLocation: CLLocation?
     var zoomLevel: Float = 15.0
     var marker: GMSMarker?
     
@@ -37,44 +37,44 @@ class TDMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.showMapTableButton.backgroundColor = .white
-        self.showMapTableButton.layer.cornerRadius = 3
-        self.showMapTableButton.layer.masksToBounds = false
-        self.showMapTableButton.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.showMapTableButton.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.showMapTableButton.layer.shadowOpacity = 0.8
+        showMapTableButton.backgroundColor = .white
+        showMapTableButton.layer.cornerRadius = 3
+        showMapTableButton.layer.masksToBounds = false
+        showMapTableButton.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        showMapTableButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        showMapTableButton.layer.shadowOpacity = 0.8
         
-        self.viewForShowTableButton.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        viewForShowTableButton.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tdMapView.delegate = self
-        self.locationManager.delegate = self
-        self.locationManager.requestWhenInUseAuthorization()
+        tdMapView?.delegate = self
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse {
             if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-                self.locationManager.startUpdatingLocation()
+                locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                locationManager.startUpdatingLocation()
             }
         }
         
-        self.tdMapView.isMyLocationEnabled = true
-        self.tdMapView.settings.myLocationButton = true
+        tdMapView.isMyLocationEnabled = true
+        tdMapView.settings.myLocationButton = true
         
-        self.destinations = RealmController.filterd
-        self.filteredDestination = []
-        self.diaries = List<Diary>()
-        self.setMarkers()
-        self.setZoomButton()
-        self.tdMapView.reloadInputViews()
-        self.mapTableView.reloadData()
-        self.mapTableHeightConstraint.constant = 100
+        destinations = RealmController.filterd
+        filteredDestination = []
+        diaries = List<Diary>()
+        setMarkers()
+        setZoomButton()
+        tdMapView.reloadInputViews()
+        mapTableView.reloadData()
+        mapTableHeightConstraint.constant = 100
         
         let buttonImage = UIImage(named: "up-arrow")
-        self.showMapTableButton.setImage(buttonImage, for: .normal)
+        showMapTableButton.setImage(buttonImage, for: .normal)
     }
 }
 
@@ -84,27 +84,27 @@ class TDMapViewController: UIViewController {
 extension TDMapViewController{
     
     @IBAction func showMapTableButtonTapped(_ sender: Any) {
-        self.setMarkers()
-        self.mapTableView.reloadData()
-        if self.mapTableHeightConstraint.constant == 100 {
-            self.mapTableHeightConstraint.constant = 300
+        setMarkers()
+        mapTableView.reloadData()
+        if mapTableHeightConstraint.constant == 100 {
+            mapTableHeightConstraint.constant = 300
             let buttonImage = UIImage(named: "down-arrow")
-            self.showMapTableButton.setImage(buttonImage, for: .normal)
+            showMapTableButton.setImage(buttonImage, for: .normal)
         } else {
-            self.mapTableHeightConstraint.constant = 100
+            mapTableHeightConstraint.constant = 100
             let buttonImage = UIImage(named: "up-arrow")
-            self.showMapTableButton.setImage(buttonImage, for: .normal)
+            showMapTableButton.setImage(buttonImage, for: .normal)
         }
     }
     
     func zoomInButtonTapped() {
-        self.zoomLevel += 1
-        self.tdMapView.animate(toZoom: zoomLevel)
+        zoomLevel += 1
+        tdMapView.animate(toZoom: zoomLevel)
     }
     
     func zoomOutButtonTapped() {
-        self.zoomLevel -= 1
-        self.tdMapView.animate(toZoom: zoomLevel)
+        zoomLevel -= 1
+        tdMapView.animate(toZoom: zoomLevel)
     }
     
     @IBAction func changeMapType(_ sender: Any) {
@@ -138,29 +138,34 @@ extension TDMapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let latitude = locations.first?.coordinate.latitude
-        let longitude = locations.first?.coordinate.longitude
-        let camera = GMSCameraPosition.camera(withLatitude: latitude!, longitude: longitude!, zoom: zoomLevel)
+        guard let latitude = locations.first?.coordinate.latitude else {
+            return
+        }
+        guard let longitude = locations.first?.coordinate.longitude else {
+            return
+        }
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: zoomLevel)
         
-        self.tdMapView.animate(to: camera)
+        tdMapView.animate(to: camera)
         
-        self.locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
     }
     
     func setMarkers() {
         
-        self.tdMapView.clear()
-        self.getLocationsForMarkers()
+        tdMapView.clear()
+        getLocationsForMarkers()
         
         let markerImage = UIImage(named: "street")
         
-        for diary in self.diaries {
-            let latitude = diary.latitude.value
-            let longtitude = diary.longitude.value
-            let position = CLLocationCoordinate2D(latitude: latitude!, longitude: longtitude!)
+        for diary in diaries {
+            var position = CLLocationCoordinate2D()
+            if let latitude = diary.latitude.value, let longtitude = diary.longitude.value {
+                position = CLLocationCoordinate2D(latitude: latitude, longitude: longtitude)
+            }
             let marker = GMSMarker(position: position)
             
-            marker.title = diary.getTitle()
+            marker.title = diary.title
             marker.tracksViewChanges = true
             marker.icon = markerImage
             marker.map = tdMapView
@@ -179,15 +184,21 @@ extension TDMapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        let tdDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "TDDetailViewController") as! TDDetailViewController
-        let diaryMarker = marker.userData as! Diary
+        guard let tdDetailVC = storyboard?.instantiateViewController(withIdentifier: "TDDetailViewController") as? TDDetailViewController else {
+            return
+        }
+        let diaryMarker = marker.userData as? Diary
         
         let allDiaries = realm.objects(Diary.self)
-        let setdiary = allDiaries.filter("id = \(diaryMarker.id)")
+        let setdiary = allDiaries.filter("id = \(String(describing: diaryMarker?.id))")
+        
+        guard let destinations = self.destinations else {
+            return
+        }
         
         var section = 0
-        searchLoop: for destination in self.destinations! {
-            for diary in destination.getDiaries() {
+        searchLoop: for destination in destinations {
+            for diary in destination.diaries {
                 if diary.id == setdiary.first?.id {
                     break searchLoop
                 }
@@ -196,7 +207,7 @@ extension TDMapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
         }
         
         var row = 0
-        for diary in (self.destinations?[section].getDiaries())! {
+        for diary in (destinations[section].diaries) {
             if diary.id == setdiary.first?.id {
                 break
             }
@@ -206,26 +217,29 @@ extension TDMapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
         let indexPath: IndexPath = IndexPath(row: row, section: section)
         tdDetailVC.indexPath = indexPath
         
-        self.navigationController?.pushViewController(tdDetailVC, animated: true)
+        navigationController?.pushViewController(tdDetailVC, animated: true)
     }
     
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         
-        let infoWindow = Bundle.main.loadNibNamed("TDMapViewMarkerInfoWindow", owner: self, options: nil)?.first as! TDMapViewMarkerInfoWindow
+        guard let infoWindow = Bundle.main.loadNibNamed("TDMapViewMarkerInfoWindow", owner: self, options: nil)?.first as? TDMapViewMarkerInfoWindow else {
+            return nil
+        }
         
-        let diaryMarker = marker.userData as! Diary
+        let diaryMarker = marker.userData as? Diary
         
         infoWindow.bounds.size = CGSize(width: 200, height: 300)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy년 MM월 dd일"
-        
-        infoWindow.tdDate.text = dateFormatter.string(from: diaryMarker.getDate())
+        if let date = diaryMarker?.date {
+            infoWindow.tdDate.text = dateFormatter.string(from: date)
+        }
         infoWindow.tdDate.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 10)
-        infoWindow.tdLocation.text = diaryMarker.getLocationName()
+        infoWindow.tdLocation.text = diaryMarker?.locationName
         infoWindow.tdLocation.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 10)
         
-        if let image = diaryMarker.getPhotos()?.first {
+        if let image = diaryMarker?.getPhotos()?.first {
             let size = CGSize(width: 100, height: 100)
             let newImage = UIImage.imageResize(image, size)
             let newImageView = UIImageView(image: newImage)
@@ -239,9 +253,12 @@ extension TDMapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
             let centerConstraint = NSLayoutConstraint(item: newImageView, attribute: .centerX, relatedBy: .equal, toItem: infoWindow, attribute: .centerX, multiplier: 1, constant: 0)
             infoWindow.addConstraints([topConstraint, centerConstraint])
         } else {
-            let image = UIImage(named: "noImage.jpg")
+            var newImage = UIImage()
             let size = CGSize(width: 100, height: 100)
-            let newImage = UIImage.imageResize(image!, size)
+            if let image = UIImage(named: "noImage.jpg") {
+                newImage = UIImage.imageResize(image, size)
+            }
+            
             let newImageView = UIImageView(image: newImage)
             newImageView.translatesAutoresizingMaskIntoConstraints = false
             newImageView.layer.cornerRadius = newImageView.frame.width / 2
@@ -261,15 +278,15 @@ extension TDMapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
 // MARK: - TableView
 extension TDMapViewController: UITableViewDelegate, UITableViewDataSource, TDMapTableViewCellDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.section != nil {
+        if section != nil {
             return 1
         } else {
             var count = 0
-            if let destinations = self.destinations {
+            if let destinations = destinations {
                 for destination in destinations {
                     var flag = false
                     let diaries = List<Diary>()
-                    for diary in destination.getDiaries() {
+                    for diary in destination.diaries {
                         if diary.latitude.value != nil {
                             flag = true
                             diaries.append(diary)
@@ -278,8 +295,8 @@ extension TDMapViewController: UITableViewDelegate, UITableViewDataSource, TDMap
                     if flag {
                         count += 1
                         let setDestination = destination
-                        setDestination.setDiaries(diaries: diaries)
-                        self.filteredDestination += [setDestination]
+                        setDestination.diaries = diaries
+                        filteredDestination += [setDestination]
                     }
                 }
                 return count
@@ -290,14 +307,14 @@ extension TDMapViewController: UITableViewDelegate, UITableViewDataSource, TDMap
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView = tableView.dequeueReusableCell(withIdentifier: "TDMapTableHeaderViewCell") as! TDMapTableHeaderViewCell
+        let headerView = tableView.dequeueReusableCell(withIdentifier: "TDMapTableHeaderViewCell") as? TDMapTableHeaderViewCell
         
         if let getSection = self.section {
-            let destination = self.destinations![getSection]
-            headerView.destinationName.text = destination.getDestinationName()
+            let destination = destinations?[getSection]
+            headerView?.destinationName.text = destination?.destinationName
         } else {
-            let destination = self.filteredDestination[section]
-            headerView.destinationName.text = destination.getDestinationName()
+            let destination = filteredDestination[section]
+            headerView?.destinationName.text = destination.destinationName
         }
         
         return headerView
@@ -313,24 +330,29 @@ extension TDMapViewController: UITableViewDelegate, UITableViewDataSource, TDMap
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.section != nil {
-            return self.diaries.count
+            return diaries.count
         } else {
-            let count = self.filteredDestination[section].getDirayCount()
+            let count = filteredDestination[section].diaries.count
             
             return count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TDMapTableViewCell", for: indexPath) as! TDMapTableViewCell
+        let dummyCell = TDMapTableViewCell()
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TDMapTableViewCell", for: indexPath) as? TDMapTableViewCell else {
+            return dummyCell
+        }
+        
         cell.delegate = self
         
-        if self.section != nil {
-            let diary = self.diaries[indexPath.row]
+        if section != nil {
+            let diary = diaries[indexPath.row]
             cell.configureCell(diary: diary)
         } else {
-            let diary = self.filteredDestination[indexPath.section].getDiary(at: indexPath.row)
-            cell.configureCell(diary: diary!)
+            let diary = filteredDestination[indexPath.section].diaries[indexPath.row]
+            cell.configureCell(diary: diary)
         }
         
         return cell
@@ -338,21 +360,22 @@ extension TDMapViewController: UITableViewDelegate, UITableViewDataSource, TDMap
     
     func mapTableTapped(diary: Diary) {
         
-        let latitude = diary.latitude.value
-        let longitude = diary.longitude.value
-        let camera = GMSCameraPosition.camera(withLatitude: latitude!, longitude: longitude!, zoom: zoomLevel)
+        guard let latitude = diary.latitude.value, let longitude = diary.longitude.value else {
+            return
+        }
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: zoomLevel)
         
-        self.tdMapView.animate(to: camera)
+        tdMapView.animate(to: camera)
     }
     
     func showMapTable(isShown: Bool) -> Bool {
         var checkShown = false
         
         if isShown == false {
-            self.mapTableHeightConstraint.constant = 300
+            mapTableHeightConstraint.constant = 300
             checkShown = true
         } else {
-            self.mapTableHeightConstraint.constant = 100
+            mapTableHeightConstraint.constant = 100
             checkShown = false
         }
         
@@ -365,25 +388,28 @@ extension TDMapViewController {
     
     func getLocationsForMarkers() {
         
-        if let section = self.section {
-            let destination = self.destinations?[section]
-            if let diaries = destination?.getDiaries() {
+        if let section = section {
+            let destination = destinations?[section]
+            if let diaries = destination?.diaries {
                 let setDiaries = diaries.filter({ (diary) -> Bool in
                     return diary.latitude.value != nil
                 })
                 
                 for diary in setDiaries {
-                    self.diaries.append(diary)
+                    diaries.append(diary)
                 }
             }
         } else {
-            for destination in self.destinations! {
-                let setDiaries = destination.getDiaries().filter({ (diary) -> Bool in
+            guard let row = destinations else {
+                return
+            }
+            for destination in row {
+                let setDiaries = destination.diaries.filter({ (diary) -> Bool in
                     return diary.latitude.value != nil
                 })
                 
                 for diary in setDiaries {
-                    self.diaries.append(diary)
+                    diaries.append(diary)
                 }
             }
         }
@@ -401,11 +427,11 @@ extension TDMapViewController {
         
         let zoomOutHeight = NSLayoutConstraint(item: zoomOutButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
         let zoomOutWidth = NSLayoutConstraint(item: zoomOutButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
-        let zoomOutHorizontalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .trailing, relatedBy: .equal, toItem: self.tdMapView, attribute: .trailing, multiplier: 1, constant: -10)
-        let zoomOutVerticalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .top, relatedBy: .equal, toItem: self.tdMapView, attribute: .top, multiplier: 1, constant: 10)
+        let zoomOutHorizontalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .trailing, relatedBy: .equal, toItem: tdMapView, attribute: .trailing, multiplier: 1, constant: -10)
+        let zoomOutVerticalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .top, relatedBy: .equal, toItem: tdMapView, attribute: .top, multiplier: 1, constant: 10)
         
-        self.tdMapView.insertSubview(zoomOutButton, aboveSubview: self.tdMapView)
-        self.tdMapView.addConstraints([zoomOutWidth, zoomOutHeight, zoomOutVerticalConstraint, zoomOutHorizontalConstraint])
+        tdMapView.insertSubview(zoomOutButton, aboveSubview: tdMapView)
+        tdMapView.addConstraints([zoomOutWidth, zoomOutHeight, zoomOutVerticalConstraint, zoomOutHorizontalConstraint])
         
         let zoomInButton = UIButton(frame: CGRect())
         let zoomInImage = UIImage(named: "zoom-in")
@@ -419,10 +445,10 @@ extension TDMapViewController {
         let zoomInHeight = NSLayoutConstraint(item: zoomInButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
         let zoomInWidth = NSLayoutConstraint(item: zoomInButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
         let zoomInHorizontalConstraint = NSLayoutConstraint(item: zoomInButton, attribute: .trailing, relatedBy: .equal, toItem: zoomOutButton, attribute: .leading, multiplier: 1, constant: -10)
-        let zoomInVerticalConstraint = NSLayoutConstraint(item: zoomInButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.tdMapView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+        let zoomInVerticalConstraint = NSLayoutConstraint(item: zoomInButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: tdMapView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
         
-        self.tdMapView.insertSubview(zoomInButton, aboveSubview: self.tdMapView)
-        self.tdMapView.addConstraints([zoomInHeight, zoomInWidth, zoomInHorizontalConstraint, zoomInVerticalConstraint])
+        tdMapView.insertSubview(zoomInButton, aboveSubview: tdMapView)
+        tdMapView.addConstraints([zoomInHeight, zoomInWidth, zoomInHorizontalConstraint, zoomInVerticalConstraint])
     }
 }
 

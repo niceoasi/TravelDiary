@@ -14,18 +14,22 @@ class TDImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tdImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
+        guard let view = tdImageView else {
+            return
+        }
         
-        self.tdImageView.layer.cornerRadius = (tdImageView?.frame.width)! / 2
+        tdImageView.layer.cornerRadius = view.frame.width / 2
         // Initialization code
         
     }
     
     func configureCell(tdImage: UIImage, isClipTrue: Bool) {
         
-        self.tdImageView.image = tdImage
+        tdImageView.image = tdImage
         
         if !isClipTrue {
-            self.tdImageView.clipsToBounds = false
+            tdImageView.clipsToBounds = false
         }
     }
 }
+

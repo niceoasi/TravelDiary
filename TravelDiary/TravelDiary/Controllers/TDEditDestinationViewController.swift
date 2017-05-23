@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-protocol TDEditDestinationViewControllerDelegate {
+protocol TDEditDestinationViewControllerDelegate: class {
     func didSaveDestination()
 }
 
@@ -34,26 +34,26 @@ class TDEditDestinationViewController: UIViewController {
     
     var section: Int?
     var destination: Destination?
-    var delegate: TDEditDestinationViewControllerDelegate?
+    weak var delegate: TDEditDestinationViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.destinationButton.layer.borderWidth = 1
-        self.destinationButton.layer.cornerRadius = 10
-        self.arrivalDateButton.layer.borderWidth = 1
-        self.arrivalDateButton.layer.cornerRadius = 10
-        self.departureDateButton.layer.borderWidth = 1
-        self.departureDateButton.layer.cornerRadius = 10
+        destinationButton.layer.borderWidth = 1
+        destinationButton.layer.cornerRadius = 10
+        arrivalDateButton.layer.borderWidth = 1
+        arrivalDateButton.layer.cornerRadius = 10
+        departureDateButton.layer.borderWidth = 1
+        departureDateButton.layer.cornerRadius = 10
         
-        self.backgroundView.layer.cornerRadius = self.backgroundView.frame.width / 10
+        backgroundView.layer.cornerRadius = backgroundView.frame.width / 10
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.setEditDestination()
-        self.showView()
+        setEditDestination()
+        showView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,15 +64,30 @@ class TDEditDestinationViewController: UIViewController {
 extension TDEditDestinationViewController {
 
     @IBAction func saveButtonTapped(_ sender: AnyObject) {
-        let destinationText = self.destinationButton.titleLabel?.text
-        let departureDateText = self.departureDateButton.titleLabel?.text
-        let arrivalDateText = self.arrivalDateButton.titleLabel?.text
+        guard let destinationText = destinationButton.titleLabel?.text else {
+            let alert = UIAlertController(title: "목적지를 입력해주세요.", message: "목적지를 입력하지 않았습니다.", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(cancelAction)
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        guard let departureDateText = departureDateButton.titleLabel?.text else {
+            return
+        }
+        guard let arrivalDateText = arrivalDateButton.titleLabel?.text else {
+            return
+        }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy.MM.dd"
         
-        let departureDate = dateFormatter.date(from: departureDateText!)!
-        let arrivalDate = dateFormatter.date(from: arrivalDateText!)!
+        guard let departureDate = dateFormatter.date(from: departureDateText) else {
+            return
+        }
+        guard let arrivalDate = dateFormatter.date(from: arrivalDateText) else {
+            return
+        }
         
         if departureDate > arrivalDate {
             let alert = UIAlertController(title: "날짜를 수정해 주세요.", message: "도착 날짜와 출발 날짜가 맞지 않습니다.", preferredStyle: .alert)
@@ -81,74 +96,68 @@ extension TDEditDestinationViewController {
             alert.addAction(cancelAction)
             present(alert, animated: true, completion: nil)
 
-        } else if destinationText == nil {
-            let alert = UIAlertController(title: "목적지를 입력해주세요.", message: "목적지를 입력하지 않았습니다.", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alert.addAction(cancelAction)
-            present(alert, animated: true, completion: nil)
         } else {
         
-            RealmController.addDestination(section: self.section, destinationText: destinationText!, departureDate: departureDate, arrivalDate: arrivalDate)
+            RealmController.addDestination(section: section, destinationText: destinationText, departureDate: departureDate, arrivalDate: arrivalDate)
             
-            self.delegate?.didSaveDestination()
-            self.hideView()
+            delegate?.didSaveDestination()
+            hideView()
         }
     }
     
     @IBAction func cancelButtonTapped(_ sender: AnyObject) {
-        self.hideView()
+        hideView()
     }
     
     @IBAction func departureDatePickerButtonTapped() {
         
-        if self.destinationButtonClicked {
-            self.heightForDestinationCollection.constant = 0
+        if destinationButtonClicked {
+            heightForDestinationCollection.constant = 0
         }
         
-        if self.isDepartureDatePicker {
-            self.heightForDatePicker.constant = 0
-            self.isDepartureDatePicker = false
+        if isDepartureDatePicker {
+            heightForDatePicker.constant = 0
+            isDepartureDatePicker = false
         } else {
-            self.heightForDatePicker.constant = 150
-            self.isDepartureDatePicker = true
+            heightForDatePicker.constant = 150
+            isDepartureDatePicker = true
         }
-        self.isArriveDatePicker = false
-        self.destinationButtonClicked = false
+        isArriveDatePicker = false
+        destinationButtonClicked = false
     }
     
     @IBAction func arrivalDatePickerButtonTapped() {
         
-        if self.destinationButtonClicked {
-            self.heightForDestinationCollection.constant = 0
+        if destinationButtonClicked {
+            heightForDestinationCollection.constant = 0
         }
         
-        if self.isArriveDatePicker {
-            self.heightForDatePicker.constant = 0
-            self.isArriveDatePicker = false
+        if isArriveDatePicker {
+            heightForDatePicker.constant = 0
+            isArriveDatePicker = false
         } else {
-            self.heightForDatePicker.constant = 150
-            self.isArriveDatePicker = true
+            heightForDatePicker.constant = 150
+            isArriveDatePicker = true
         }
-        self.isDepartureDatePicker = false
-        self.destinationButtonClicked = false
+        isDepartureDatePicker = false
+        destinationButtonClicked = false
     }
     
     @IBAction func setDestinationButtonTapped() {
         
-        if self.heightForDatePicker.constant != 0 {
-            self.heightForDatePicker.constant = 0
+        if heightForDatePicker.constant != 0 {
+            heightForDatePicker.constant = 0
         }
         
-        if self.destinationButtonClicked {
-            self.heightForDestinationCollection.constant = 0
-            self.destinationButtonClicked = false
+        if destinationButtonClicked {
+            heightForDestinationCollection.constant = 0
+            destinationButtonClicked = false
         } else {
-            self.heightForDestinationCollection.constant = 100
-            self.destinationButtonClicked = true
+            heightForDestinationCollection.constant = 100
+            destinationButtonClicked = true
         }
-        self.isDepartureDatePicker = false
-        self.isArriveDatePicker = false
+        isDepartureDatePicker = false
+        isArriveDatePicker = false
     }
     
     @IBAction func didDateChanged(_ sender: UIDatePicker) {
@@ -157,13 +166,13 @@ extension TDEditDestinationViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy.MM.dd"
         
-        if self.isDepartureDatePicker {
+        if isDepartureDatePicker {
             let departureDate = dateFormatter.string(from: sender.date)
-            self.departureDateButton.setTitle(departureDate, for: .normal)
+            departureDateButton.setTitle(departureDate, for: .normal)
         }
-        if self.isArriveDatePicker {
+        if isArriveDatePicker {
             let arrivalDate = dateFormatter.string(from: date)
-            self.arrivalDateButton.setTitle(arrivalDate, for: .normal)
+            arrivalDateButton.setTitle(arrivalDate, for: .normal)
             
         }
     }
@@ -176,20 +185,24 @@ extension TDEditDestinationViewController: UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDDestinationCollectionViewCell", for: indexPath) as! TDDestinationCollectionViewCell
-        let region = RegionList(rawValue: indexPath.row)?.convertRegion()
+        let dummyCell = TDDestinationCollectionViewCell()
         
-        cell.configureCell(region: region!)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDDestinationCollectionViewCell", for: indexPath) as? TDDestinationCollectionViewCell else {
+            return dummyCell
+        }
+        if let region = RegionList(rawValue: indexPath.row)?.convertRegion() {
+            cell.configureCell(region: region)
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let region = RegionList(rawValue: indexPath.row)?.convertRegion() {
-            self.destinationButton.setTitle(region.region, for: .normal)
+            destinationButton.setTitle(region.region, for: .normal)
             
-            self.heightForDestinationCollection.constant = 0
-            self.destinationButtonClicked = false
+            heightForDestinationCollection.constant = 0
+            destinationButtonClicked = false
         }
     }
 }
@@ -197,38 +210,38 @@ extension TDEditDestinationViewController: UICollectionViewDelegate, UICollectio
 // MARK: - Init, Show, Dismis Animation
 extension TDEditDestinationViewController {
     func setEditDestination() {
-        self.setView.backgroundColor = .white
-        self.setView.layer.cornerRadius = 5
-        self.setView.layer.masksToBounds = false
-        self.setView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.setView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.setView.layer.shadowOpacity = 0.8
+        setView.backgroundColor = .white
+        setView.layer.cornerRadius = 5
+        setView.layer.masksToBounds = false
+        setView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        setView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        setView.layer.shadowOpacity = 0.8
         
-        self.view.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 0.4)
+        view.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 0.4)
         
         if let section = section {
-            self.destination = RealmController.shared?[section]
+            destination = RealmController.shared?[section]
             
-            self.destinationButton.setTitle(self.destination?.getDestinationName(), for: .normal)
+            destinationButton.setTitle(destination?.destinationName, for: .normal)
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yy.MM.dd"
             
-            if let departureDate = self.destination?.getDepartureDate() {
+            if let departureDate = destination?.departureDate {
                 let date = dateFormatter.string(from: departureDate)
-                self.departureDateButton.setTitle(date, for: .normal)
+                departureDateButton.setTitle(date, for: .normal)
             }
-            if let arrivalDate = self.destination?.getArrivalDate() {
+            if let arrivalDate = destination?.arrivalDate {
                 let date = dateFormatter.string(from: arrivalDate)
-                self.arrivalDateButton.setTitle(date, for: .normal)
+                arrivalDateButton.setTitle(date, for: .normal)
             }
         } else {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yy.MM.dd"
             
             let date = dateFormatter.string(from: Date())
-            self.departureDateButton.setTitle(date, for: .normal)
-            self.arrivalDateButton.setTitle(date, for: .normal)
+            departureDateButton.setTitle(date, for: .normal)
+            arrivalDateButton.setTitle(date, for: .normal)
         }
     }
     

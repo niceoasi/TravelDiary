@@ -33,7 +33,7 @@ class TDEditContainerViewController: UITableViewController {
     
     let locationManager = CLLocationManager()
     
-    var nowDate: Date!
+    var nowDate = Date()
     var flagForLocation: Bool = false
     var location: (latitude: Double?, longitude: Double?)
     var dirPathForPhotos = List<DirPathForImage>()
@@ -47,14 +47,14 @@ class TDEditContainerViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tdCollectionView.register(UINib(nibName: "TDImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TDImageCollectionViewCell")
+        tdCollectionView.register(UINib(nibName: "TDImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TDImageCollectionViewCell")
         
-        self.tdTitle.delegate = self
-        self.tdDate.delegate = self
-        self.tdLocation.delegate = self
-        self.tdMemo.delegate = self
-        self.locationManager.delegate = self
-        self.setTableUI()
+        tdTitle.delegate = self
+        tdDate.delegate = self
+        tdLocation.delegate = self
+        tdMemo.delegate = self
+        locationManager.delegate = self
+        setTableUI()
         
     }
     
@@ -63,13 +63,10 @@ class TDEditContainerViewController: UITableViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy년 MM월 dd일"
         
-        if self.nowDate == nil {
-            self.nowDate = Date()
-        }
-        self.tdDate.text = dateFormatter.string(from: self.nowDate)
+        tdDate.text = dateFormatter.string(from: nowDate)
         
-        self.tdTableView.reloadData()
-        self.tdCollectionView.reloadData()
+        tdTableView.reloadData()
+        tdCollectionView.reloadData()
     }
 }
 
@@ -77,40 +74,42 @@ class TDEditContainerViewController: UITableViewController {
 extension TDEditContainerViewController {
     @IBAction func editDateButtonTapped(_ sender: Any) {
         
-        if self.isDatePickeHidden {
-            self.isDatePickeHidden = false
-            self.datePicker.isHidden = false
+        if isDatePickeHidden {
+            isDatePickeHidden = false
+            datePicker.isHidden = false
             
-            self.tdTableView.reloadData()
+            tdTableView.reloadData()
         } else {
-            self.isDatePickeHidden = true
-            self.datePicker.isHidden = true
+            isDatePickeHidden = true
+            datePicker.isHidden = true
             
-            self.nowDate = self.datePicker.date
+            nowDate = datePicker.date
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yy년 MM월 dd일"
             
-            self.tdDate.text = dateFormatter.string(from: self.nowDate)
+            tdDate.text = dateFormatter.string(from: nowDate)
             
-            self.tdTableView.reloadData()
+            tdTableView.reloadData()
         }
     }
     
     @IBAction func editLocationButtonTapped(_ sender: Any) {
-        let searchMapVC = self.storyboard?.instantiateViewController(withIdentifier: "TDSearchMapViewController") as! TDSearchMapViewController
+        guard let searchMapVC = storyboard?.instantiateViewController(withIdentifier: "TDSearchMapViewController") as? TDSearchMapViewController else {
+            return
+        }
         searchMapVC.delegate = self
         
-        self.present(searchMapVC, animated: true, completion: nil)
+        present(searchMapVC, animated: true, completion: nil)
     }
     
     @IBAction func setCurrentLocationButtonTapped(_ sender: Any) {
-        self.locationManager.requestWhenInUseAuthorization()
-        self.flagForLocation = false
+        locationManager.requestWhenInUseAuthorization()
+        flagForLocation = false
         
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse {
             if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-                self.locationManager.startUpdatingLocation()
+                locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                locationManager.startUpdatingLocation()
             }
         }
     }
@@ -119,18 +118,18 @@ extension TDEditContainerViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy년 MM월 dd일"
         
-        self.tdDate.text = dateFormatter.string(from: sender.date)
+        tdDate.text = dateFormatter.string(from: sender.date)
     }
 }
 
 // MARK: - TDSearchMapViewControllerDelegate
 extension TDEditContainerViewController: TDSearchMapViewControllerDelegate {
     func changeLocation(location: CLLocationCoordinate2D, locationName: String) {
-        self.flagForLocation = true
+        flagForLocation = true
         self.location = (latitude: location.latitude, longitude: location.longitude)
-        self.tdLocation.text = locationName
+        tdLocation.text = locationName
         
-        self.locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
     }
 }
 
@@ -146,9 +145,9 @@ extension TDEditContainerViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 2 && self.isDatePickeHidden {
+        if indexPath.row == 2 && isDatePickeHidden {
             return 0
-        } else if indexPath.row == 4 && self.tdImages.count == 0 {
+        } else if indexPath.row == 4 && tdImages.count == 0 {
             return 0
         } else {
             return super.tableView(tdTableView, heightForRowAt : indexPath)
@@ -157,13 +156,13 @@ extension TDEditContainerViewController {
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == 5 {
-            self.tdCollectionView.reloadData()
+            tdCollectionView.reloadData()
         }
     }
     
     func setTableUI() {
-        let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: self.tdMemo.frame.width, height: 50))
-        let resignButton = UIButton(frame: CGRect(x: self.tdMemo.frame.width - 50, y: 0, width: 50, height: 50))
+        let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: tdMemo.frame.width, height: 50))
+        let resignButton = UIButton(frame: CGRect(x: tdMemo.frame.width - 50, y: 0, width: 50, height: 50))
         let image = UIImage(named: "resignKeyboard")
         resignButton.setImage(image, for: .normal)
         
@@ -172,10 +171,10 @@ extension TDEditContainerViewController {
         accessoryView.addSubview(resignButton)
         accessoryView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
         
-        self.tdMemo.inputAccessoryView = accessoryView
-        self.tdTitle.inputAccessoryView = accessoryView
+        tdMemo.inputAccessoryView = accessoryView
+        tdTitle.inputAccessoryView = accessoryView
         
-        for cardView in self.uiCardViewViewCollection {
+        for cardView in uiCardViewViewCollection {
             cardView.backgroundColor = .white
             cardView.layer.cornerRadius = 3
             cardView.layer.masksToBounds = false
@@ -184,11 +183,11 @@ extension TDEditContainerViewController {
             cardView.layer.shadowOpacity = 0.8
         }
         
-        for contentView in self.uiContentViewCollection {
+        for contentView in uiContentViewCollection {
             contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
         }
 
-        self.backgroundViewForCollectionView.backgroundColor = .black
+        backgroundViewForCollectionView.backgroundColor = .black
     }
 }
 
@@ -201,13 +200,16 @@ extension TDEditContainerViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return self.tdImages.count
+        return tdImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDImageCollectionViewCell", for: indexPath) as! TDImageCollectionViewCell
+        let dummyCell = TDImageCollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDImageCollectionViewCell", for: indexPath) as? TDImageCollectionViewCell else {
+            return dummyCell
+        }
         
-        let tdImage = self.tdImages[indexPath.row]
+        let tdImage = tdImages[indexPath.row]
         cell.configureCell(tdImage: tdImage, isClipTrue: true)
         
         return cell
@@ -234,7 +236,7 @@ extension TDEditContainerViewController: UICollectionViewDelegate, UICollectionV
         alertAction.addAction(okayAction)
         alertAction.addAction(cancelAction)
         
-        self.present(alertAction, animated: true, completion: nil)
+        present(alertAction, animated: true, completion: nil)
     }
 }
 
@@ -244,20 +246,25 @@ extension TDEditContainerViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if locations.count == 1 {
-            CLGeocoder().reverseGeocodeLocation(manager.location!, completionHandler: {(placemarks, error) -> Void in
+            guard let location = manager.location else {
+                return
+            }
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
                 if let error = error {
                     print("Reverse geocoder failed with error" + error.localizedDescription)
                     return
                 }
-                
-                if placemarks?.count != 0 {
+                guard let markers = placemarks else {
+                    return
+                }
+                if markers.isEmpty {
                     if let pm = placemarks?.first {
                         if !self.flagForLocation {
                             self.setLocationInfo(placemark: pm)
                         }
                     }
                 } else {
-                    print("Problem with the data received from geocoder, \(placemarks?.count)")
+                    print("Problem with the data received from geocoder, \(String(describing: placemarks?.count))")
                 }
             })
         }
@@ -265,7 +272,7 @@ extension TDEditContainerViewController: CLLocationManagerDelegate {
     
     func setLocationInfo(placemark: CLPlacemark) {
         let location = placemark.location?.coordinate
-        self.location = (latitude: (location?.latitude)!, longitude: (location?.longitude)!)
+        self.location = (latitude: (location?.latitude), longitude: (location?.longitude))
         locationManager.stopUpdatingLocation()
         
         var locationName = ""
@@ -276,7 +283,7 @@ extension TDEditContainerViewController: CLLocationManagerDelegate {
             locationName += "\(thoroughfare)"
         }
         
-        self.tdLocation.text = locationName
+        tdLocation.text = locationName
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -288,32 +295,12 @@ extension TDEditContainerViewController: CLLocationManagerDelegate {
 extension TDEditContainerViewController: UITextViewDelegate, UITextFieldDelegate {
     
     func handleTap() {
-        if self.tdTitle.isFirstResponder {
-            self.tdTitle.resignFirstResponder()
+        if tdTitle.isFirstResponder {
+            tdTitle.resignFirstResponder()
         }
         
-        if self.tdMemo.isFirstResponder {
-            self.tdMemo.resignFirstResponder()
+        if tdMemo.isFirstResponder {
+            tdMemo.resignFirstResponder()
         }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        textView.resignFirstResponder()
-    }
-    
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        textView.resignFirstResponder()
-        
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.resignFirstResponder()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        
-        return true
     }
 }

@@ -17,8 +17,8 @@ class TDTableViewController: UIViewController {
     @IBOutlet weak var placeholderLabel: UILabel!
     
     // MARK: - Properties
-    let realm = try! Realm()
-    var filteredDestination: Results<Destination>!
+    let realm = try? Realm()
+    var filteredDestination: Results<Destination>?
     var selectedRegion: (region: String, color: UIColor)?
     var collapse = false
     
@@ -27,22 +27,24 @@ class TDTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        RealmController.shared = self.realm.objects(Destination.self)
-        self.filteredDestination = RealmController.shared
-        RealmController.filterd = self.filteredDestination
+        RealmController.shared = realm?.objects(Destination.self)
+        filteredDestination = RealmController.shared
+        RealmController.filterd = filteredDestination
         
-        self.collapseSection()
+        collapseSection()
         
-        let isCreatedImageFolder = UserDefaults.standard.value(forKey: "createImagesDirectory")
-        if isCreatedImageFolder as! Bool {
+        
+        guard let isCreatedImageFolder = UserDefaults.standard.value(forKey: "createImagesDirectory") as? Bool else {
             print("ImagesFolder already created.")
-        } else {
-            self.createImagesDirectory()
-            print("Make ImagesFolder")
-            UserDefaults.standard.set(true, forKey: "createImagesDirectory")
+            return
         }
         
-        self.tdTableView.register(UINib(nibName: "TDTableHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "TDTableHeaderView")
+        createImagesDirectory()
+        print("Make ImagesFolder")
+        UserDefaults.standard.set(true, forKey: "createImagesDirectory")
+        
+        
+        tdTableView.register(UINib(nibName: "TDTableHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: "TDTableHeaderView")
         
         
         // Do any additional setup after loading the view.
@@ -52,9 +54,9 @@ class TDTableViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.placeholderLabel.isHidden = true
-        self.checkSectionCount()
-        self.tdTableView.reloadData()
+        placeholderLabel.isHidden = true
+        checkSectionCount()
+        tdTableView.reloadData()
     }
 }
 
@@ -66,7 +68,7 @@ extension TDTableViewController {
         let fileManager = FileManager.default
         let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("Images")
         
-        try! fileManager.createDirectory(atPath: paths, withIntermediateDirectories: true, attributes: nil)
+        try? fileManager.createDirectory(atPath: paths, withIntermediateDirectories: true, attributes: nil)
         
         print("createDirectory : \(paths)")
     }
@@ -78,7 +80,7 @@ extension TDTableViewController {
         }
         
         if count == 0 {
-            self.placeholderLabel.isHidden = false
+            placeholderLabel.isHidden = false
             
             let actionSheet = UIAlertController(title: "여행 기록이 없습니다.", message: "여행 기록을 추가 하시겠습니까?", preferredStyle: .actionSheet)
             
@@ -91,14 +93,18 @@ extension TDTableViewController {
             actionSheet.addAction(okayAction)
             actionSheet.addAction(cancelAction)
             
-            self.present(actionSheet, animated: true, completion: nil)
+            present(actionSheet, animated: true, completion: nil)
         }
     }
     
     func collapseSection() {
-        self.sectionExpandedInfo = []
-        for index in 0..<self.filteredDestination.count {
-            self.sectionExpandedInfo += [collapse]
+        sectionExpandedInfo = []
+        guard let count = filteredDestination?.count else {
+            return
+        }
+        
+        for _ in 0..<count {
+            sectionExpandedInfo += [collapse]
         }
     }
 }
@@ -108,20 +114,22 @@ extension TDTableViewController {
 extension TDTableViewController {
     
     @IBAction func collapseButtonTapped(_ sender: Any) {
-        self.collapse = !self.collapse
-        self.collapseSection()
-        self.tdTableView.reloadData()
+        collapse = !collapse
+        collapseSection()
+        tdTableView.reloadData()
     }
     
     @IBAction func makeNewDiary(_ sender: Any) {
-        self.newDestination(section: nil)
+        newDestination(section: nil)
     }
     
     @IBAction func setFilter(_ sender: Any) {
-        let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "TDFilterViewController") as! TDFilterViewController
+        guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "TDFilterViewController") as? TDFilterViewController else {
+            return
+        }
         filterVC.delegate = self
         
-        self.present(filterVC, animated: true, completion: nil)
+        present(filterVC, animated: true, completion: nil)
     }
     
 }
@@ -131,9 +139,9 @@ extension TDTableViewController {
 extension TDTableViewController: TDEditDestinationViewControllerDelegate {
     
     func didSaveDestination() {
-        self.placeholderLabel.isHidden = true
-        self.collapseSection()
-        self.tdTableView.reloadData()
+        placeholderLabel.isHidden = true
+        collapseSection()
+        tdTableView.reloadData()
     }
 }
 
@@ -142,30 +150,34 @@ extension TDTableViewController: TDEditDestinationViewControllerDelegate {
 extension TDTableViewController: TDHeaderViewDelegate {
 
     func newDestination(section: Int?) {
-        let destinationVC = self.storyboard?.instantiateViewController(withIdentifier: "TDEditDestinationViewController") as! TDEditDestinationViewController
+        guard let destinationVC = storyboard?.instantiateViewController(withIdentifier: "TDEditDestinationViewController") as? TDEditDestinationViewController else {
+            return
+        }
         
         destinationVC.delegate = self
         destinationVC.section = section
         
-        self.present(destinationVC, animated: false, completion: nil)
+        present(destinationVC, animated: false, completion: nil)
     }
     
     func collapseCell(section: Int) {
         
-        self.sectionExpandedInfo[section] = !self.sectionExpandedInfo[section]
+        sectionExpandedInfo[section] = !sectionExpandedInfo[section]
         
-        self.tdTableView.reloadSections(IndexSet(integer:section), with: .fade)
+        tdTableView.reloadSections(IndexSet(integer:section), with: .fade)
     }
     
     func newDiaryFor(section: Int) {
-        let editDiaryVC = self.storyboard!.instantiateViewController(withIdentifier: "TDEditDiaryViewController") as! TDEditDiaryViewController
+        guard let editDiaryVC = storyboard?.instantiateViewController(withIdentifier: "TDEditDiaryViewController") as? TDEditDiaryViewController else {
+            return
+        }
         editDiaryVC.section = section
         
-        self.present(editDiaryVC, animated: true, completion: nil)
+        present(editDiaryVC, animated: true, completion: nil)
     }
     
     func editDestinationFor(section: Int) {
-        self.newDestination(section: section)
+        newDestination(section: section)
     }
     
     func deleteDestinationFor(section: Int) {
@@ -174,7 +186,7 @@ extension TDTableViewController: TDHeaderViewDelegate {
             
             RealmController.deleteDestination(section: section)
             
-            RealmController.shared = self.realm.objects(Destination.self)
+            RealmController.shared = self.realm?.objects(Destination.self)
             if let region = self.selectedRegion {
                 self.setFilter(selectedRegion: region)
             } else {
@@ -189,18 +201,20 @@ extension TDTableViewController: TDHeaderViewDelegate {
         alertAction.addAction(okayAction)
         alertAction.addAction(cancelAction)
         
-        self.present(alertAction, animated: true, completion: nil)
+        present(alertAction, animated: true, completion: nil)
     }
     
     func showMapFor(section: Int) {
-        let tdMapVC = self.storyboard?.instantiateViewController(withIdentifier: "TDMapViewController") as! TDMapViewController
+        guard let tdMapVC = storyboard?.instantiateViewController(withIdentifier: "TDMapViewController") as? TDMapViewController else {
+            return
+        }
         tdMapVC.section = section
         
-        self.navigationController?.pushViewController(tdMapVC, animated: true)
+        navigationController?.pushViewController(tdMapVC, animated: true)
     }
     
     func moreButtonTapped(alertVC: UIAlertController) {
-        self.present(alertVC, animated: true, completion: nil)
+        present(alertVC, animated: true, completion: nil)
     }
 }
 
@@ -208,17 +222,17 @@ extension TDTableViewController: TDHeaderViewDelegate {
 extension TDTableViewController: TDFilterViewControllerDelegate {
     func setFilter(selectedRegion: (region: String, color: UIColor)) {
         if selectedRegion.region == "All" {
-            self.filteredDestination = RealmController.shared
-            RealmController.filterd = self.filteredDestination
+            filteredDestination = RealmController.shared
+            RealmController.filterd = filteredDestination
             
         } else {
-            self.selectedRegion? = selectedRegion
-            self.filteredDestination = RealmController.shared.filter("destinationName = %@", "\(selectedRegion.region)")
-            RealmController.filterd = self.filteredDestination
+            self.selectedRegion = selectedRegion
+            filteredDestination = RealmController.shared?.filter("destinationName = %@", "\(selectedRegion.region)")
+            RealmController.filterd = filteredDestination
             
         }
-        self.collapseSection()
-        self.tdTableView.reloadData()
+        collapseSection()
+        tdTableView.reloadData()
     }
 }
 
@@ -227,7 +241,7 @@ extension TDTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        if let destinations = self.filteredDestination {
+        if let destinations = filteredDestination {
             return destinations.count
         }
         
@@ -236,14 +250,16 @@ extension TDTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TDTableHeaderView") as! TDTableHeaderView
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TDTableHeaderView") as? TDTableHeaderView
         
-        let destination = self.filteredDestination[section]
-        headerView.configureView(destination: destination, section: section, state: self.sectionExpandedInfo[section])
+        if let destination = filteredDestination?[section] {
         
-        headerView.delegate = self
-        
-        return headerView
+            headerView?.configureView(destination: destination, section: section, state: sectionExpandedInfo[section])
+            headerView?.delegate = self
+            
+            return headerView
+        }
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -251,24 +267,32 @@ extension TDTableViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let row = self.filteredDestination[section].getDirayCount()
-        
-        if self.sectionExpandedInfo[section] {
-            return 0
-        } else {
-            return row
+        if let row = filteredDestination?[section].diaries.count {
+
+            if sectionExpandedInfo[section] {
+                return 0
+            } else {
+                return row
+            }
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: TDTableViewCell!
+        let dummyCell = TDTableViewCell()
         
-        let diary = self.filteredDestination[indexPath.section].getDiary(at: indexPath.row)
+        guard let diary = filteredDestination?[indexPath.section].diaries[indexPath.row] else  {
+            return dummyCell
+        }
         
-        cell = tableView.dequeueReusableCell(withIdentifier: "TDTableViewCell", for: indexPath) as! TDTableViewCell
-        cell.configureCell(diary: diary!)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TDTableViewCell", for: indexPath) as? TDTableViewCell else {
+            return dummyCell
+        }
+        
+        cell.configureCell(diary: diary)
         
         return cell
+        
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -282,10 +306,12 @@ extension TDTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let tdDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "TDDetailViewController") as! TDDetailViewController
+        guard let tdDetailVC = storyboard?.instantiateViewController(withIdentifier: "TDDetailViewController") as? TDDetailViewController else {
+            return
+        }
         
         tdDetailVC.indexPath = indexPath
         
-        self.navigationController?.pushViewController(tdDetailVC, animated: true)
+        navigationController?.pushViewController(tdDetailVC, animated: true)
     }
 }

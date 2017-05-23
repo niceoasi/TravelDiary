@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TDMapTableViewCellDelegate {
+protocol TDMapTableViewCellDelegate: class {
     func mapTableTapped(diary: Diary)
 }
 
@@ -20,20 +20,20 @@ class TDMapTableViewCell: UITableViewCell {
     
     @IBOutlet weak var backgroundCardView: UIView!
     
-    var diary: Diary!
-    var delegate: TDMapTableViewCellDelegate?
+    var diary: Diary?
+    weak var delegate: TDMapTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.backgroundCardView.backgroundColor = .white
-        self.backgroundCardView.layer.cornerRadius = 3
-        self.backgroundCardView.layer.masksToBounds = false
-        self.backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.backgroundCardView.layer.shadowOpacity = 0.8
+        backgroundCardView.backgroundColor = .white
+        backgroundCardView.layer.cornerRadius = 3
+        backgroundCardView.layer.masksToBounds = false
+        backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        backgroundCardView.layer.shadowOpacity = 0.8
         
-        self.contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,18 +45,21 @@ class TDMapTableViewCell: UITableViewCell {
     func configureCell(diary: Diary) {
         self.diary = diary
         
-        self.mapTableCellTitleLabel.text = self.diary.getTitle()
+        mapTableCellTitleLabel.text = diary.title
         
-        let date = self.diary.getDate()
+        let date = diary.date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy년 MM월 dd일"
-        self.mapTableCellDateLabel.text = dateFormatter.string(from: date)
+        mapTableCellDateLabel.text = dateFormatter.string(from: date)
         
-        self.mapTableLocationLabel.text = self.diary.getLocationName()
+        mapTableLocationLabel.text = diary.locationName
     }
     
     @IBAction func cellTapped(_ sender: Any) {
-        self.delegate?.mapTableTapped(diary: self.diary)
+        guard let diary = self.diary else {
+            return
+        }
+        delegate?.mapTableTapped(diary: diary)
     }
     
 }

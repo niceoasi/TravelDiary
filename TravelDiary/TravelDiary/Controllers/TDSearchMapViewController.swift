@@ -10,7 +10,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-protocol TDSearchMapViewControllerDelegate {
+protocol TDSearchMapViewControllerDelegate: class {
     func changeLocation(location: CLLocationCoordinate2D, locationName: String)
 }
 
@@ -22,29 +22,29 @@ class TDSearchMapViewController: UIViewController {
     @IBOutlet weak var buttonCardView: UIView!
     
     var locationManager = CLLocationManager()
-    var location: CLLocationCoordinate2D!
+    var location = CLLocationCoordinate2D()
     var locationName: String = ""
     var zoomLevel: Float = 15
     
-    var delegate: TDSearchMapViewControllerDelegate?
+    weak var delegate: TDSearchMapViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tdMapView.delegate = self
-        self.locationManager.delegate = self
-        self.locationManager.requestWhenInUseAuthorization()
+        tdMapView.delegate = self
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse {
             if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-                self.locationManager.startUpdatingLocation()
+                locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                locationManager.startUpdatingLocation()
             }
         }
         
-        self.tdMapView.isMyLocationEnabled = true
-        self.tdMapView.settings.myLocationButton = true
-        self.setButton()
+        tdMapView.isMyLocationEnabled = true
+        tdMapView.settings.myLocationButton = true
+        setButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,27 +59,27 @@ extension TDSearchMapViewController {
         let autoCompliteVC = GMSAutocompleteViewController()
         autoCompliteVC.delegate = self
         
-        self.locationManager.startUpdatingLocation()
-        self.present(autoCompliteVC, animated: true, completion: nil)
+        locationManager.startUpdatingLocation()
+        present(autoCompliteVC, animated: true, completion: nil)
     }
     
     @IBAction func saveLocationButtonTapped(_ sender: Any) {
-        self.delegate?.changeLocation(location: self.location, locationName: self.locationName)
-        self.dismiss(animated: true, completion: nil)
+        delegate?.changeLocation(location: location, locationName: locationName)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func zoomInButtonTapped() {
-        self.zoomLevel += 1
-        self.tdMapView.animate(toZoom: zoomLevel)
+        zoomLevel += 1
+        tdMapView.animate(toZoom: zoomLevel)
     }
     
     func zoomOutButtonTapped() {
-        self.zoomLevel -= 1
-        self.tdMapView.animate(toZoom: zoomLevel)
+        zoomLevel -= 1
+        tdMapView.animate(toZoom: zoomLevel)
     }
 }
 
@@ -92,13 +92,17 @@ extension TDSearchMapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first
         
-        let latitude = location?.coordinate.latitude
-        let longitude = location?.coordinate.longitude
-        let camera = GMSCameraPosition.camera(withLatitude: latitude!, longitude: longitude!, zoom: self.zoomLevel)
+        guard let latitude = location?.coordinate.latitude else {
+            return
+        }
+        guard let longitude = location?.coordinate.longitude else {
+            return
+        }
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: zoomLevel)
         
-        self.tdMapView.animate(to: camera)
+        tdMapView.animate(to: camera)
         
-        self.locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
     }
 }
 
@@ -106,11 +110,11 @@ extension TDSearchMapViewController: CLLocationManagerDelegate {
 extension TDSearchMapViewController: GMSMapViewDelegate {
 
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        self.tdMapView.isMyLocationEnabled = true
+        tdMapView.isMyLocationEnabled = true
     }
     
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
-        self.tdMapView.isMyLocationEnabled = true
+        tdMapView.isMyLocationEnabled = true
         if gesture {
             mapView.selectedMarker = nil
         }
@@ -120,21 +124,21 @@ extension TDSearchMapViewController: GMSMapViewDelegate {
 // MARK: - GMSAutocompleteViewControllerDelegate
 extension TDSearchMapViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: self.zoomLevel)
-        self.locationManager.stopUpdatingLocation()
+        let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: zoomLevel)
+        locationManager.stopUpdatingLocation()
         
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
         marker.title = "\(place.name)"
-        marker.snippet = "\((place.formattedAddress)!)"
-        marker.map = self.tdMapView
+        marker.snippet = "\(String(describing: place.formattedAddress))"
+        marker.map = tdMapView
         
         print("\(place.coordinate.latitude) :: \(place.coordinate.longitude)")
-        self.location = place.coordinate
-        self.locationName = place.name
+        location = place.coordinate
+        locationName = place.name
         
-        self.tdMapView.animate(to: camera)
-        self.dismiss(animated: true, completion: nil)
+        tdMapView.animate(to: camera)
+        dismiss(animated: true, completion: nil)
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
@@ -142,7 +146,7 @@ extension TDSearchMapViewController: GMSAutocompleteViewControllerDelegate {
     }
     
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -161,11 +165,11 @@ extension TDSearchMapViewController {
         
         let zoomOutHeight = NSLayoutConstraint(item: zoomOutButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
         let zoomOutWidth = NSLayoutConstraint(item: zoomOutButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
-        let zoomOutHorizontalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .trailing, relatedBy: .equal, toItem: self.tdMapView, attribute: .trailing, multiplier: 1, constant: -10)
-        let zoomOutVerticalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .top, relatedBy: .equal, toItem: self.tdMapView, attribute: .top, multiplier: 1, constant: 10)
+        let zoomOutHorizontalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .trailing, relatedBy: .equal, toItem: tdMapView, attribute: .trailing, multiplier: 1, constant: -10)
+        let zoomOutVerticalConstraint = NSLayoutConstraint(item: zoomOutButton, attribute: .top, relatedBy: .equal, toItem: tdMapView, attribute: .top, multiplier: 1, constant: 10)
         
-        self.tdMapView.insertSubview(zoomOutButton, aboveSubview: self.tdMapView)
-        self.tdMapView.addConstraints([zoomOutWidth, zoomOutHeight, zoomOutVerticalConstraint, zoomOutHorizontalConstraint])
+        tdMapView.insertSubview(zoomOutButton, aboveSubview: tdMapView)
+        tdMapView.addConstraints([zoomOutWidth, zoomOutHeight, zoomOutVerticalConstraint, zoomOutHorizontalConstraint])
         
         let zoomInButton = UIButton(frame: CGRect())
         let zoomInImage = UIImage(named: "zoom-in")
@@ -179,18 +183,18 @@ extension TDSearchMapViewController {
         let zoomInHeight = NSLayoutConstraint(item: zoomInButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
         let zoomInWidth = NSLayoutConstraint(item: zoomInButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)
         let zoomInHorizontalConstraint = NSLayoutConstraint(item: zoomInButton, attribute: .trailing, relatedBy: .equal, toItem: zoomOutButton, attribute: .leading, multiplier: 1, constant: -10)
-        let zoomInVerticalConstraint = NSLayoutConstraint(item: zoomInButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: self.tdMapView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+        let zoomInVerticalConstraint = NSLayoutConstraint(item: zoomInButton, attribute: NSLayoutAttribute.top, relatedBy: .equal, toItem: tdMapView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
         
-        self.tdMapView.insertSubview(zoomInButton, aboveSubview: self.tdMapView)
-        self.tdMapView.addConstraints([zoomInHeight, zoomInWidth, zoomInHorizontalConstraint, zoomInVerticalConstraint])
+        tdMapView.insertSubview(zoomInButton, aboveSubview: tdMapView)
+        tdMapView.addConstraints([zoomInHeight, zoomInWidth, zoomInHorizontalConstraint, zoomInVerticalConstraint])
         
-        self.buttonCardView.backgroundColor = .white
-        self.buttonCardView.layer.cornerRadius = 3
-        self.buttonCardView.layer.masksToBounds = false
-        self.buttonCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.buttonCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.buttonCardView.layer.shadowOpacity = 0.8
-        self.buttonContainerView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        buttonCardView.backgroundColor = .white
+        buttonCardView.layer.cornerRadius = 3
+        buttonCardView.layer.masksToBounds = false
+        buttonCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        buttonCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        buttonCardView.layer.shadowOpacity = 0.8
+        buttonContainerView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
     }
 }
 

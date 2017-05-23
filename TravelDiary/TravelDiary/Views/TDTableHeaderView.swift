@@ -7,7 +7,7 @@
 //
 
 import UIKit
-protocol TDHeaderViewDelegate {
+protocol TDHeaderViewDelegate: class {
     func collapseCell(section: Int)
     func newDiaryFor(section: Int)
     func editDestinationFor(section: Int)
@@ -27,10 +27,10 @@ class TDTableHeaderView: UITableViewHeaderFooterView {
     
     @IBOutlet weak var headerContentView: UIView!
     
-    var delegate: TDHeaderViewDelegate?
-    var section: Int!
+    weak var delegate: TDHeaderViewDelegate?
+    var section: Int = 0
     var isMoreButtonClicked: Bool = false
-    var destination: Destination!
+    var destination: Destination?
     var photos: [UIImage] = []
     
 }
@@ -43,7 +43,7 @@ extension TDTableHeaderView {
             return
         }
         
-        self.delegate?.collapseCell(section: cell.section)
+        delegate?.collapseCell(section: cell.section)
     }
     
     @IBAction func moreButtonTapped() {
@@ -68,7 +68,7 @@ extension TDTableHeaderView {
         alertVC.addAction(showMapButton)
         alertVC.addAction(cancelButton)
         
-        self.delegate?.moreButtonTapped(alertVC: alertVC)
+        delegate?.moreButtonTapped(alertVC: alertVC)
     }
 }
 
@@ -76,32 +76,32 @@ extension TDTableHeaderView {
 // MARK: - Configure
 extension TDTableHeaderView {
     func configureView(destination: Destination, section: Int, state: Bool) {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapHeader(_:))))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapHeader(_:))))
         
         self.section = section
         self.destination = destination
-        let destinationName = self.destination.getDestinationName()
-        let departureDate = self.destination.getDepartureDate()
-        let arrivalDate = self.destination.getArrivalDate()
+        let destinationName = destination.destinationName
+        let departureDate = destination.departureDate
+        let arrivalDate = destination.arrivalDate
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy.MM.dd"
         
-        self.destinationLabel?.text = destinationName
-        self.departureDateLabel?.text = dateFormatter.string(from: departureDate)
-        self.arrivalDateLable?.text = dateFormatter.string(from: arrivalDate)
+        destinationLabel?.text = destinationName
+        departureDateLabel?.text = dateFormatter.string(from: departureDate)
+        arrivalDateLable?.text = dateFormatter.string(from: arrivalDate)
         
-        self.setShowCellButton(state: state)
-        self.setUI()
+        setShowCellButton(state: state)
+        setUI()
     }
     
     func setShowCellButton(state: Bool) {
         if !state {
             let image = UIImage(named: "caret-down")
-            self.showCellButton?.setImage(image, for: .normal)
+            showCellButton?.setImage(image, for: .normal)
         } else {
             let image = UIImage(named: "caret-arrow-up")
-            self.showCellButton?.setImage(image, for: .normal)
+            showCellButton?.setImage(image, for: .normal)
         }
     }
     
@@ -109,22 +109,22 @@ extension TDTableHeaderView {
         for rawValue in 0...6 {
             let region = RegionList(rawValue: rawValue)?.convertRegion().region
             let color = RegionList(rawValue: rawValue)?.convertRegion().color
-            if let name = self.destination.destinationName {
+            if let name = destination?.destinationName {
                 if region == name {
-                    self.backgroundCardView.backgroundColor = color
+                    backgroundCardView.backgroundColor = color
                 }
             }
         }
         
-        self.backgroundCardView.layer.cornerRadius = 3
-        self.backgroundCardView.layer.masksToBounds = false
-        self.backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.backgroundCardView.layer.shadowOpacity = 0.8
+        backgroundCardView.layer.cornerRadius = 3
+        backgroundCardView.layer.masksToBounds = false
+        backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        backgroundCardView.layer.shadowOpacity = 0.8
         
-        self.headerContentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        headerContentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
         
-        self.moreButton.layer.cornerRadius = 4
-        self.showCellButton.layer.cornerRadius = 4
+        moreButton.layer.cornerRadius = 4
+        showCellButton.layer.cornerRadius = 4
     }
 }

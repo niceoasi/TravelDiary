@@ -7,14 +7,14 @@
 //
 
 import UIKit
-protocol TDFilterViewControllerDelegate {
+protocol TDFilterViewControllerDelegate: class {
     func setFilter(selectedRegion: (region: String, color: UIColor))
 }
 
 class TDFilterViewController: UITableViewController {
     
     var selectedRegion: (String, UIColor)?
-    var delegate: TDFilterViewControllerDelegate?
+    weak var delegate: TDFilterViewControllerDelegate?
     
     var saveButton = UIButton()
     
@@ -26,8 +26,8 @@ class TDFilterViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.saveButton.isEnabled = false
-        self.saveButton.setTitleColor(UIColor.FlatColor.Gray.WhiteSmoke, for: .disabled)
+        saveButton.isEnabled = false
+        saveButton.setTitleColor(UIColor.FlatColor.Gray.WhiteSmoke, for: .disabled)
     }
     // MARK: - Table view data source
     
@@ -46,13 +46,13 @@ class TDFilterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         if indexPath.section == 0 {
-            let cgSize = CGSize(width: self.view.frame.width / 2, height: cell.frame.height)
+            let cgSize = CGSize(width: view.frame.width / 2, height: cell.frame.height)
             let color = UIColor.FlatColor.Blue.CuriousBlue
             let cancelButton = UIButton(frame: CGRect(origin: CGPoint(x: 0, y: 0) , size: cgSize))
             cancelButton.setTitle("Cancel", for: .normal)
             cancelButton.setTitleColor(color, for: .normal)
             cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-            self.saveButton = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width / 2, y: 0), size: cgSize))
+            saveButton = UIButton(frame: CGRect(origin: CGPoint(x: view.frame.width / 2, y: 0), size: cgSize))
             saveButton.setTitle("Save", for: .normal)
             saveButton.setTitleColor(color, for: .normal)
             saveButton.addTarget(self, action: #selector(save), for: .touchUpInside)
@@ -79,14 +79,14 @@ class TDFilterViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
             if indexPath.row == 0 {
-                self.selectedRegion = ("All", UIColor.FlatColor.Violet.BlueGem)
+                selectedRegion = ("All", UIColor.FlatColor.Violet.BlueGem)
             } else {
                 let region = RegionList(rawValue: indexPath.row - 1)?.convertRegion()
             
-                self.selectedRegion = region
+                selectedRegion = region
             }
             
-            self.saveButton.isEnabled = true
+            saveButton.isEnabled = true
         }
     }
 }
@@ -95,11 +95,14 @@ class TDFilterViewController: UITableViewController {
 extension TDFilterViewController {
 
     @IBAction func save() {
-        self.delegate?.setFilter(selectedRegion: selectedRegion!)
-        self.dismiss(animated: true, completion: nil)
+        guard let selected = selectedRegion else {
+            return
+        }
+        delegate?.setFilter(selectedRegion: selected)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }

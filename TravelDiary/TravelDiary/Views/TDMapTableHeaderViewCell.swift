@@ -16,13 +16,13 @@ class TDMapTableHeaderViewCell: UITableViewCell {
     // Initialization code
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundCardView.layer.cornerRadius = 3
-        self.backgroundCardView.layer.masksToBounds = false
-        self.backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.backgroundCardView.layer.shadowOpacity = 0.8
+        backgroundCardView.layer.cornerRadius = 3
+        backgroundCardView.layer.masksToBounds = false
+        backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        backgroundCardView.layer.shadowOpacity = 0.8
         
-        self.contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TDDetailViewCellDelegate {
+protocol TDDetailViewCellDelegate: class {
     func showPhotos(photos: [UIImage]?)
 }
 
@@ -31,35 +31,35 @@ class TDDetailViewCell: UICollectionViewCell {
     
     var photos: [UIImage]?
     
-    var delegate: TDDetailViewCellDelegate?
+    weak var delegate: TDDetailViewCellDelegate?
     
     func setCell(diary: Diary) {
         
-        self.setCellUI()
-        self.photosCollectionView.register(UINib(nibName: "TDImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TDImageCollectionViewCell")
+        setCellUI()
+        photosCollectionView.register(UINib(nibName: "TDImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TDImageCollectionViewCell")
         
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         
-        self.tdDate.text = dateFormatter.string(from: diary.getDate())
+        tdDate.text = dateFormatter.string(from: diary.date)
         
-        self.tdTitle.text = diary.getTitle()
-        self.tdLocation.text = diary.getLocationName()
-        if self.tdLocation.text != "" {
-            self.tdLocation.text = "/ " + self.tdLocation.text!
+        tdTitle.text = diary.title
+        tdLocation.text = diary.locationName
+        if tdLocation.text != "" {
+            tdLocation.text = "/ " + tdLocation.text!
         }
             
-        self.tdMemo.text = diary.getText()
-        self.photos = diary.getPhotos()
+        tdMemo.text = diary.text
+        photos = diary.getPhotos()
         
-        if self.photos?.count == 0 {
-            self.heightForCollectionView.constant = 0
+        if photos?.count == 0 {
+            heightForCollectionView.constant = 0
         } else {
-            self.heightForCollectionView.constant = 120
+            heightForCollectionView.constant = 120
         }
         
-        self.photosCollectionView.reloadData()
+        photosCollectionView.reloadData()
     }
 }
 
@@ -68,7 +68,7 @@ extension TDDetailViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0
         
-        if let photos = self.photos {
+        if let photos = photos {
             count = photos.count
         }
         
@@ -78,7 +78,7 @@ extension TDDetailViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDImageCollectionViewCell", for: indexPath) as! TDImageCollectionViewCell
         
-        let photo = (self.photos?[indexPath.row])!
+        let photo = (photos?[indexPath.row])!
         cell.configureCell(tdImage: photo, isClipTrue: true)
         
         return cell
@@ -86,14 +86,14 @@ extension TDDetailViewCell: UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let photos = self.photos {
-            self.delegate?.showPhotos(photos: photos)
+        if let photos = photos {
+            delegate?.showPhotos(photos: photos)
         }
     }
     
     func setCellUI() {
         
-        for uiCardView in self.uiCardViewViewCollection {
+        for uiCardView in uiCardViewViewCollection {
             uiCardView.backgroundColor = .white
             uiCardView.layer.cornerRadius = 3
             uiCardView.layer.masksToBounds = false
@@ -102,8 +102,8 @@ extension TDDetailViewCell: UICollectionViewDelegate, UICollectionViewDataSource
             uiCardView.layer.shadowOpacity = 0.8
         }
         
-        self.photoCardView.backgroundColor = .black
+        photoCardView.backgroundColor = .black
         
-        self.cellContentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        cellContentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
     }
 }

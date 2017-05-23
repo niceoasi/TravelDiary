@@ -14,8 +14,8 @@ class TDDestinationCollectionViewCell: UICollectionViewCell {
     
     func configureCell(region: (region: String, color: UIColor)) {
         self.region.text = region.region
-        self.backgrounView.backgroundColor = region.color
+        backgrounView.backgroundColor = region.color
         
-        self.backgrounView.layer.cornerRadius = 10
+        backgrounView.layer.cornerRadius = 10
     }
 }

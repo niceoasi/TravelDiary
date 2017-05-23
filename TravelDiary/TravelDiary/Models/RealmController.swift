@@ -10,13 +10,15 @@ import Foundation
 import RealmSwift
 
 class RealmController {
-    static var shared: Results<Destination>!
-    static var filterd: Results<Destination>!
+    static var shared: Results<Destination>?
+    static var filterd: Results<Destination>?
     
     class func deleteDestination(section: Int) {
         
-        let destination = self.filterd[section]
-        let diaries = destination.getDiaries()
+        guard let destination = RealmController.filterd?[section] else {
+            return
+        }
+        let diaries = destination.diaries
         
         let realm = try! Realm()
         
@@ -35,7 +37,9 @@ class RealmController {
         
         let realm = try! Realm()
         if let section = section {
-            let destination = RealmController.shared[section]
+            guard let destination = RealmController.shared?[section] else {
+                return
+            }
             try! realm.write {
                 destination.destinationName = destinationText
                 destination.departureDate = departureDate
@@ -63,7 +67,7 @@ class RealmController {
             if let islongitude = diary.longitude.value {
                 destination.diaries[row].longitude.value = islongitude
             }
-            if willAddPhotos.count != 0 {
+            if !willAddPhotos.isEmpty {
                 destination.diaries[row].addPhotos(images: willAddPhotos)
             }
             
@@ -71,7 +75,7 @@ class RealmController {
             
             for willDeletePhoto in willDeletePhotosPath {
                 let path = DirPathForImage()
-                path.setDirPath(dirPath: willDeletePhoto)
+                path.dirPath = willDeletePhoto
                 willDeletePhotos.append(path)
                 
                 var index = 0
@@ -94,7 +98,7 @@ class RealmController {
 
         let realm = try! Realm()
         try! realm.write {
-            destination.addDiary(diary: diary)
+            destination.diaries.append(diary)
         }
     }
     
@@ -102,9 +106,9 @@ class RealmController {
         let realm = try! Realm()
         
         try! realm.write {
-            destination.deleteDiary(at: row)
+            destination.diaries.remove(at: row)
             let photos = diary.dirPathForPhotos
-            if photos.count != 0 {
+            if !photos.isEmpty {
                 ImageController.deletePhoto(dirPathForPhotos: photos)
                 realm.delete(photos)
             }

@@ -20,20 +20,20 @@ class TDImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tdCollectionView.register(UINib(nibName: "TDImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TDImageCollectionViewCell")
+        tdCollectionView.register(UINib(nibName: "TDImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TDImageCollectionViewCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = true
-        self.setupFlowLayout()
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
+        setupFlowLayout()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.navigationBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.isHidden = false
     }
 }
 
@@ -41,8 +41,8 @@ class TDImageViewController: UIViewController {
 // MARK: - FlowLayout
 extension TDImageViewController {
     func setupFlowLayout() {
-        self.flowLayout.minimumInteritemSpacing = 0
-        self.flowLayout.itemSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.itemSize = CGSize(width: view.frame.width, height: view.frame.height)
     }
 }
 
@@ -54,16 +54,19 @@ extension TDImageViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDImageCollectionViewCell", for: indexPath) as! TDImageCollectionViewCell
+        let dummyCell = TDImageCollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TDImageCollectionViewCell", for: indexPath) as? TDImageCollectionViewCell else {
+            return dummyCell
+        }
         
-        let tdImage = self.tdImages[indexPath.row]
+        let tdImage = tdImages[indexPath.row]
         cell.configureCell(tdImage: tdImage, isClipTrue: false)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let navigationController = self.navigationController {
+        if let navigationController = navigationController {
             navigationController.popViewController(animated: true)
         }
     }

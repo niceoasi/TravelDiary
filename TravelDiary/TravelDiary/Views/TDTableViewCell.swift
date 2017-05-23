@@ -21,14 +21,14 @@ class TDTableViewCell: UITableViewCell {
     @IBOutlet weak var backgroundCardView: UIView!
     
     // MARK: - Properties
-    var diary: Diary!
+    var diary: Diary?
     var collasped = false
     
     // Initialization code
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.setUI()
+        setUI()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -44,21 +44,21 @@ extension TDTableViewCell {
     
     func setUI() {
         
-        self.tdDate.layer.borderColor = UIColor.blue.cgColor
-        self.tdDate.layer.borderWidth = 1
+        tdDate.layer.borderColor = UIColor.blue.cgColor
+        tdDate.layer.borderWidth = 1
         
-        self.tdImageView?.layer.cornerRadius = (tdImageView?.frame.width)! / 2
-        self.tdImageView?.layer.borderColor = UIColor.white.cgColor
-        self.tdImageView?.layer.borderWidth = 1
+        tdImageView?.layer.cornerRadius = (tdImageView?.frame.width)! / 2
+        tdImageView?.layer.borderColor = UIColor.white.cgColor
+        tdImageView?.layer.borderWidth = 1
         
-        self.backgroundCardView.backgroundColor = .white
-        self.backgroundCardView.layer.cornerRadius = 3
-        self.backgroundCardView.layer.masksToBounds = false
-        self.backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
-        self.backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.backgroundCardView.layer.shadowOpacity = 0.8
+        backgroundCardView.backgroundColor = .white
+        backgroundCardView.layer.cornerRadius = 3
+        backgroundCardView.layer.masksToBounds = false
+        backgroundCardView.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        backgroundCardView.layer.shadowOpacity = 0.8
         
-        self.contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
+        contentView.backgroundColor = UIColor(red: 240/255.5, green: 240/255.5, blue: 240/255.5, alpha: 1)
     }
     
     func configureCell(diary: Diary) {
@@ -67,25 +67,24 @@ extension TDTableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd일"
         
-        let date = self.diary.getDate()
-        self.tdDate.text = dateFormatter.string(from: date)
+        let date = diary.date
+        tdDate.text = dateFormatter.string(from: date)
         dateFormatter.dateFormat = "EEEE"
         
-        self.tdWeakday.text = dateFormatter.string(from: date)
+        tdWeakday.text = dateFormatter.string(from: date)
         
-        self.tdMemo.text = self.diary.getText()
+        tdMemo.text = diary.text
         
-        if let locationName = self.diary.getLocationName() {
-            self.tdLocation.text = locationName
-        }
         
-        if let tdImage = self.diary.getPhotos() {
-            self.tdImageView.image = tdImage.first
+        tdLocation.text = diary.locationName
+        
+        if let tdImage = diary.getPhotos() {
+            tdImageView.image = tdImage.first
             
             if tdImage.count == 0 {
-                self.widthForimageView.constant = 0
+                widthForimageView.constant = 0
             } else {
-                self.widthForimageView.constant = 99
+                widthForimageView.constant = 99
             }
         }
     }
